@@ -1,0 +1,53 @@
+2014/11/20 09:48:55 [error] 6106#0: *11320 FastCGI sent in stderr: "PHP message: PHP Warning:  file_put_contents(/var/www/yii2/yii2-start/frontend/runtime/debug/546d4887942a7.data): failed to open stream: Permission denied in /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php on line 58
+PHP message: PHP Stack trace:
+PHP message: PHP   1. yii\base\ErrorHandler->handleException() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/base/ErrorHandler.php:0
+PHP message: PHP   2. yii\log\Logger->flush() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/log/Logger.php:0
+PHP message: PHP   3. yii\log\Dispatcher->dispatch() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/log/Logger.php:166
+PHP message: PHP   4. yii\debug\LogTarget->collect() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/log/Dispatcher.php:183
+PHP message: PHP   5. yii\debug\LogTarget->export() /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php:112
+PHP message: PHP   6. file_put_contents() /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php:58" while reading upstream, client: 192.168.72.28, server: yii2-start.local, request: "POST /contacts/ HTTP/1.1", upstream: "fastcgi://unix:/var/run/php5-fpm.sock:", host: "yii2-start.local", referrer: "http://yii2-start.local/contacts/"
+2014/11/20 09:48:55 [error] 6106#0: *11320 FastCGI sent in stderr: "PHP message: PHP Warning:  touch(): Utime failed: Permission denied in /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php on line 73
+PHP message: PHP Stack trace:
+PHP message: PHP   1. yii\base\ErrorHandler->handleException() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/base/ErrorHandler.php:0
+PHP message: PHP   2. yii\log\Logger->flush() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/log/Logger.php:0
+PHP message: PHP   3. yii\log\Dispatcher->dispatch() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/log/Logger.php:166
+PHP message: PHP   4. yii\debug\LogTarget->collect() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/log/Dispatcher.php:183
+PHP message: PHP   5. yii\debug\LogTarget->export() /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php:112
+PHP message: PHP   6. yii\debug\LogTarget->updateIndexFile() /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php:61
+PHP message: PHP   7. touch() /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php:73" while reading upstream, client: 192.168.72.28, server: yii2-start.local, request: "POST /contacts/ HTTP/1.1", upstream: "fastcgi://unix:/var/run/php5-fpm.sock:", host: "yii2-start.local", referrer: "http://yii2-start.local/contacts/"
+2014/11/20 09:48:55 [error] 6106#0: *11320 FastCGI sent in stderr: "PHP message: PHP Warning:  file_put_contents(/var/www/yii2/yii2-start/frontend/runtime/debug/546d4887d5a64.data): failed to open stream: Permission denied in /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php on line 58
+PHP message: PHP Stack trace:
+PHP message: PHP   1. yii\base\ErrorHandler->handleException() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/base/ErrorHandler.php:0
+PHP message: PHP   2. yii\log\Logger->flush() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/log/Logger.php:0
+PHP message: PHP   3. yii\log\Dispatcher->dispatch() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/log/Logger.php:166
+PHP message: PHP   4. yii\debug\LogTarget->collect() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/log/Dispatcher.php:183
+PHP message: PHP   5. yii\debug\LogTarget->export() /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php:112
+PHP message: PHP   6. file_put_contents() /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php:58
+PHP message: PHP Warning:  touch(): Utime failed: Permission denied in /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php on line 73
+PHP message: PHP Stack trace:
+PHP message: PHP   1. yii\base\ErrorHandler->handleException() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/base/ErrorHandler.php:0
+PHP message: PHP   2. yii\log\Logger->flush() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/log/Logger.php:0
+PHP message: PHP   3. yii\log\Dispatcher->dispatch() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/log/Logger.php:166
+PHP message: PHP   4. yii\debug\LogTarget->collect() /var/www/yii2/yii2-start/vendor/yiisoft/yii2/log/Dispatcher.php:183
+PHP message: PHP   5. yii\debug\LogTarget->export() /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php:112
+PHP message: PHP   6. yii\debug\LogTarget->updateIndexFile() /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php:61
+PHP message: PHP   7. touch() /var/www/yii2/yii2-start/vendor/yiisoft/yii2-debug/LogTarget.php:73" wh
+2014/11/20 11:02:51 [error] 6106#0: *11424 upstream timed out (110: Connection timed out) while reading response header from upstream, client: 192.168.72.28, server: yii2-start.local, request: "POST /contacts/ HTTP/1.1", upstream: "fastcgi://unix:/var/run/php5-fpm.sock", host: "yii2-start.local", referrer: "http://yii2-start.local/contacts/"
+2014/11/20 11:08:16 [error] 6106#0: *11434 upstream timed out (110: Connection timed out) while reading response header from upstream, client: 192.168.72.28, server: yii2-start.local, request: "POST /contacts/ HTTP/1.1", upstream: "fastcgi://unix:/var/run/php5-fpm.sock", host: "yii2-start.local", referrer: "http://yii2-start.local/contacts/"
+2014/11/25 22:21:23 [error] 11348#0: *199 directory index of "/alidata/www/blog/statics/web//" is forbidden, client: 58.38.147.208, server: blog.pdwjun.com, request: "GET /statics/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/25 22:22:42 [error] 11348#0: *208 directory index of "/alidata/www/blog/statics/web//" is forbidden, client: 58.38.147.208, server: blog.pdwjun.com, request: "GET /statics/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/25 22:23:47 [error] 11348#0: *226 open() "/alidata/www/blog/statics/web//web" failed (2: No such file or directory), client: 58.38.147.208, server: blog.pdwjun.com, request: "GET /statics/web HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/25 22:31:10 [error] 11506#0: *297 open() "/alidata/www/blog/statics/web//web" failed (2: No such file or directory), client: 101.226.89.117, server: blog.pdwjun.com, request: "GET /statics/web HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/26 09:21:41 [error] 24190#0: *960 "/alidata/www/blog/backend/web/backend/index.php" is not found (2: No such file or directory), client: 203.156.231.130, server: blog.pdwjun.com, request: "GET /backend/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/26 09:21:42 [error] 24190#0: *960 "/alidata/www/blog/backend/web/backend/index.php" is not found (2: No such file or directory), client: 203.156.231.130, server: blog.pdwjun.com, request: "GET /backend/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/26 09:21:42 [error] 24190#0: *960 "/alidata/www/blog/backend/web/backend/index.php" is not found (2: No such file or directory), client: 203.156.231.130, server: blog.pdwjun.com, request: "GET /backend/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/26 09:21:42 [error] 24190#0: *961 "/alidata/www/blog/backend/web/backend/index.php" is not found (2: No such file or directory), client: 203.156.231.130, server: blog.pdwjun.com, request: "GET /backend/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/26 09:21:42 [error] 24190#0: *961 "/alidata/www/blog/backend/web/backend/index.php" is not found (2: No such file or directory), client: 203.156.231.130, server: blog.pdwjun.com, request: "GET /backend/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/26 09:23:47 [error] 24294#0: *997 "/alidata/www/blog/backend/web/backend/index.php" is not found (2: No such file or directory), client: 203.156.231.130, server: blog.pdwjun.com, request: "GET /backend/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/26 09:54:59 [error] 24849#0: *1025 "/alidata/www/blog/backend/web/backend/index.php" is not found (2: No such file or directory), client: 203.156.231.130, server: blog.pdwjun.com, request: "GET /backend/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/26 09:55:00 [error] 24849#0: *1025 "/alidata/www/blog/backend/web/backend/index.php" is not found (2: No such file or directory), client: 203.156.231.130, server: blog.pdwjun.com, request: "GET /backend/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/26 09:55:00 [error] 24849#0: *1027 "/alidata/www/blog/backend/web/backend/index.php" is not found (2: No such file or directory), client: 203.156.231.130, server: blog.pdwjun.com, request: "GET /backend/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/26 09:55:00 [error] 24849#0: *1025 "/alidata/www/blog/backend/web/backend/index.php" is not found (2: No such file or directory), client: 203.156.231.130, server: blog.pdwjun.com, request: "GET /backend/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/26 09:55:06 [error] 24878#0: *1 "/alidata/www/blog/backend/web/backend/index.php" is not found (2: No such file or directory), client: 203.156.231.130, server: blog.pdwjun.com, request: "GET /backend/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/26 09:55:06 [error] 24878#0: *1 "/alidata/www/blog/backend/web/backend/index.php" is not found (2: No such file or directory), client: 203.156.231.130, server: blog.pdwjun.com, request: "GET /backend/ HTTP/1.1", host: "blog.pdwjun.com"
+2014/11/26 09:55:07 [error] 24878#0: *4 "/alidata/www/blog/backend/web/backend/index.php" is not found (2: No such file or directory), client: 203.156.231.130, server: blog.pdwjun.com, request: "GET /backend/ HTTP/1.1", host: "blog.pdwjun.com"
