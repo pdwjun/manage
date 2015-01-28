@@ -60,7 +60,8 @@ class Widget extends InputWidget
         if (isset($this->settings['plugins']) && !is_array($this->settings['plugins'])) {
             throw new InvalidConfigException('The "plugins" property must be an array.');
         }
-        if (!isset($this->settings['lang']) && Yii::$app->language !== 'en-US') {
+        //没有中文，所以会加载失败
+        if (!isset($this->settings['lang']) && Yii::$app->language !== 'en-US' && Yii::$app->language !== 'zh-CN') {
             $this->settings['lang'] = substr(Yii::$app->language, 0, 2);
         }
         if ($this->selector === null) {

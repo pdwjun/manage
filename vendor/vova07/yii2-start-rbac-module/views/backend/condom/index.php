@@ -77,22 +77,6 @@ $gridConfig = [
                 ]
             )
         ],
-        [
-            'attribute' => 'updated_at',
-            'format' => 'date',
-            'filter' => DatePicker::widget(
-                [
-                    'model' => $searchModel,
-                    'attribute' => 'updated_at',
-                    'options' => [
-                        'class' => 'form-control'
-                    ],
-                    'clientOptions' => [
-                        'dateFormat' => 'dd.mm.yy',
-                    ]
-                ]
-            )
-        ]
     ]
 ];
 
@@ -128,7 +112,7 @@ $boxButtons = !empty($boxButtons) ? implode(' ', $boxButtons) : null; ?>
                 'bodyOptions' => [
                     'class' => 'table-responsive'
                 ],
-                'buttonsTemplate' => $boxButtons,
+//                'buttonsTemplate' => $boxButtons,
                 'grid' => $gridId
             ]
         ); ?>

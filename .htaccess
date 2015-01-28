@@ -12,6 +12,12 @@
     # Statics redirect
     RewriteCond %{REQUEST_URI} ^/statics
     RewriteRule ^statics/(.*)$ statics/web/$1 [L]
+	
+    RewriteCond %{REQUEST_URI} ^/t
+    RewriteRule ^t/(.*)$ test/$1 [L]
+	
+    RewriteCond %{REQUEST_URI} ^/assets
+    RewriteRule ^t/(.*)$ assets/$1 [L]
 
     # Frontend redirect
     RewriteCond %{REQUEST_URI} ^(.*)$

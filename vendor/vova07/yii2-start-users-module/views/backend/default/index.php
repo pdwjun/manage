@@ -46,10 +46,6 @@ $gridConfig = [
             'value' => 'profile.name'
         ],
         [
-            'attribute' => 'surname',
-            'value' => 'profile.surname'
-        ],
-        [
             'attribute' => 'status_id',
             'format' => 'html',
             'value' => function ($model) {

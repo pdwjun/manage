@@ -9,6 +9,7 @@ use vova07\fileapi\actions\UploadAction as FileAPIUpload;
 use vova07\imperavi\actions\GetAction as ImperaviGet;
 use vova07\imperavi\actions\UploadAction as ImperaviUpload;
 use Yii;
+use yii\db\Query;
 use yii\filters\VerbFilter;
 use yii\web\HttpException;
 use yii\web\Response;
@@ -122,6 +123,16 @@ class DefaultController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
+                if($model->isNewRecord){
+                    $a = $this->createDb($model->dbname);
+                    if($a!=true)
+                        $this->refresh();
+                    //反正当前数据库
+                    $connection = Yii::$app->db;
+                    $use = "use `". $this->getDbName(). "`;";
+                    $command = $connection->createCommand($use);
+                    $command->execute();
+                }
                 if ($model->save(false)) {
                     return $this->redirect(['update', 'id' => $model->id]);
                 } else {
@@ -228,5 +239,31 @@ class DefaultController extends Controller
         } else {
             throw new HttpException(404);
         }
+    }
+
+    public function createDb($dbname){
+        if(!isset($dbname))
+            $dbname = 'test23';
+        $sql = "create database account_". $dbname. " DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; use account_". $dbname. "; ";
+
+        $myfile = fopen("../config/create.txt", "r") or die("Unable to open file!");
+        $sql .=  fread($myfile,filesize('../config/create.txt'));
+        $connection = Yii::$app->db;
+        $command = $connection->createCommand($sql);
+        if($command->execute()){
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function getDbName(){
+        //数据库 'dsn' => 'mysql:host=127.0.0.1;dbname=yii2-blog',
+        $str = Yii::$app->getDb()->dsn;
+        preg_match('/dbname=.*/', $str, $dbname);
+        if($dbname!="")
+            return substr($dbname[0], 7);
+        else
+            return "";
     }
 }

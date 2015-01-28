@@ -3,7 +3,9 @@
 namespace vova07\rbac\controllers\backend;
 
 use vova07\admin\components\Controller;
-use vova07\rbac\models\Role;
+//use vova07\rbac\models\Role;
+use vova07\blogs\models\backend\Blog;
+use vova07\blogs\models\backend\BlogSearch;
 use vova07\rbac\Module;
 use Yii;
 use yii\data\ArrayDataProvider;
@@ -16,7 +18,7 @@ use yii\web\Response;
 /**
  * Roles controller.
  */
-class RolesController extends Controller
+class CondomController extends Controller
 {
     /**
      * @inheritdoc
@@ -66,20 +68,16 @@ class RolesController extends Controller
      */
     public function actionIndex()
     {
-        $provider = new ArrayDataProvider([
-//            'allModels' => Yii::$app->authManager->getRoles(),
-            'allModels' => $this->getRoles('account'),
-            'key' => function ($model) {
-                return ['name' => $model->name];
-            },
-            'sort' => [
-                'attributes' => ['name', 'ruleName', 'createdAt', 'updatedAt'],
-            ]
-        ]);
+        $searchModel = new BlogSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->get());
+        $statusArray = Blog::getStatusArray();
 
         return $this->render('index', [
-            'provider' => $provider
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'statusArray' => $statusArray
         ]);
+
     }
 
     /**
@@ -120,32 +118,29 @@ class RolesController extends Controller
      *
      * @return mixed
      */
-    public function actionUpdate($name)
+    public function actionUpdate($id)
     {
-        $model = Role::findIdentity($name);
+        $model = $this->findModel($id);
         $model->setScenario('admin-update');
-        $roleArray = ArrayHelper::map($model->roles, 'name', 'name');
-        $ruleArray = ArrayHelper::map($model->rules, 'name', 'name');
-        $permissionArray = ArrayHelper::map($model->permissions, 'name', 'name');
+        $statusArray = Blog::getStatusArray();
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
-                if ($model->update()) {
+                if ($model->save(false)) {
                     return $this->refresh();
                 } else {
-                    Yii::$app->session->setFlash('danger', Module::t('rbac', 'BACKEND_ROLES_FLASH_FAIL_ADMIN_UPDATE'));
+                    Yii::$app->session->setFlash('danger', Module::t('blogs', 'BACKEND_FLASH_FAIL_ADMIN_UPDATE'));
+                    return $this->refresh();
                 }
             } elseif (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
-                return $model->getErrors();
+                return ActiveForm::validate($model);
             }
         }
 
         return $this->render('update', [
             'model' => $model,
-            'roleArray' => $roleArray,
-            'ruleArray' => $ruleArray,
-            'permissionArray' => $permissionArray
+            'statusArray' => $statusArray
         ]);
     }
 
@@ -205,17 +200,28 @@ class RolesController extends Controller
         }
     }
 
-    protected function getRoles($condom){
-        $arr = Yii::$app->authManager->getRoles();
-        $roles = array();
-        if($condom!=""){
-            foreach ($arr as $item) {
-                if(isset($item->data)&&$item->data==$condom)
-                    $roles[$item->name] = $item;
-
-            }
+    /**
+     * Find model by ID.
+     *
+     * @param integer|array $id Post ID
+     *
+     * @return \vova07\blogs\models\backend\Blog Model
+     *
+     * @throws HttpException 404 error if post not found
+     */
+    protected function findModel($id)
+    {
+        if (is_array($id)) {
+            /** @var \vova07\blogs\models\backend\Blog $model */
+            $model = Blog::findAll($id);
+        } else {
+            /** @var \vova07\blogs\models\backend\Blog $model */
+            $model = Blog::findOne($id);
         }
-        return $roles;
+        if ($model !== null) {
+            return $model;
+        } else {
+            throw new HttpException(404);
+        }
     }
-
 }

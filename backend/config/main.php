@@ -6,6 +6,7 @@ return [
     'id' => 'app-backend',
     'name' => 'Yii2-Start',
     'basePath' => dirname(__DIR__),
+    'language' => 'zh-CN',
     'defaultRoute' => 'admin/default/index',
     'modules' => [
         'admin' => [
@@ -27,7 +28,7 @@ return [
     ],
     'components' => [
         'request' => [
-            'cookieValidationKey' => '7fdsf%dbYd&djsb#sn0mlsfo(kj^kf98dfh',
+            'cookieValidationKey' => '7fdsf%dbYd&djsb#sn0mlsfo(kj^kf12dfh',
          //   'baseUrl' => '/backend'
         ],
         'urlManager' => [

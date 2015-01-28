@@ -16,14 +16,13 @@ class BlogSearch extends Blog
     {
         return [
             // Integer
-            ['id', 'integer'],
             // String
-            [['snippet', 'content'], 'string'],
-            [['title', 'alias'], 'string', 'max' => 255],
+            [['address', 'note'], 'string'],
+            [['dbname', 'company'], 'string', 'max' => 255],
             // Status
-            ['status_id', 'in', 'range' => array_keys(self::getStatusArray())],
+            ['status', 'in', 'range' => array_keys(self::getStatusArray())],
             // Date
-            [['created_at', 'updated_at'], 'date', 'format' => 'd.m.Y']
+            [['created_at', 'updated_at', 'starttime'], 'date', 'format' => 'd.m.Y']
         ];
     }
 
@@ -48,17 +47,17 @@ class BlogSearch extends Blog
 
         $query->andFilterWhere(
             [
-                'id' => $this->id,
-                'status_id' => $this->status_id,
-                'FROM_UNIXTIME(created_at, "%d.%m.%Y")' => $this->created_at,
-                'FROM_UNIXTIME(updated_at, "%d.%m.%Y")' => $this->updated_at
+                'company' => $this->company,
+                'status' => $this->status,
+                'FROM_UNIXTIME(created_at, "%d.%m.%Y")' => $this->created_at!=""?$this->created_at:null,
+                'FROM_UNIXTIME(updated_at, "%d.%m.%Y")' => $this->updated_at!=""?$this->updated_at:null,
             ]
         );
 
-        $query->andFilterWhere(['like', 'alias', $this->alias]);
-        $query->andFilterWhere(['like', 'title', $this->title]);
-        $query->andFilterWhere(['like', 'snippet', $this->snippet]);
-        $query->andFilterWhere(['like', 'content', $this->content]);
+        $query->andFilterWhere(['like', 'company', $this->company]);
+        $query->andFilterWhere(['like', 'dbname', $this->dbname]);
+        $query->andFilterWhere(['like', 'address', $this->address]);
+        $query->andFilterWhere(['like', 'note', $this->note]);
 
         return $dataProvider;
     }

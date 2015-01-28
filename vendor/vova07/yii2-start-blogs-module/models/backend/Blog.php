@@ -11,14 +11,16 @@ use Yii;
  * Blog model.
  *
  * @property integer $id ID
- * @property string $title Title
- * @property string $alias Alias
- * @property string $snippet Intro text
- * @property string $content Content
- * @property integer $views Views
- * @property integer $status_id Status
+ * @property string $dbname Dbname
+ * @property string $company Company
+ * @property string $address Address
+ * @property string $cuser Contact user
+ * @property string $cphone Contact phone
+ * @property string $note Note
+ * @property integer $starttime Create time
  * @property integer $created_at Created time
  * @property integer $updated_at Updated time
+ * @property integer $status Status
  */
 class Blog extends \vova07\blogs\models\Blog
 {
@@ -77,7 +79,7 @@ class Blog extends \vova07\blogs\models\Blog
     {
         $statuses = self::getStatusArray();
 
-        return $statuses[$this->status_id];
+        return $statuses[$this->status];
     }
 
     /**
@@ -97,7 +99,7 @@ class Blog extends \vova07\blogs\models\Blog
     public function rules()
     {
         $rules = parent::rules();
-        $rules[] = ['status_id', 'in', 'range' => array_keys(self::getStatusArray())];
+        $rules[] = ['status', 'in', 'range' => array_keys(self::getStatusArray())];
         $rules[] = [['createdAtJui', 'updatedAtJui'], 'date'];
 
         return $rules;
@@ -122,26 +124,25 @@ class Blog extends \vova07\blogs\models\Blog
     {
         $scenarios = parent::scenarios();
         $scenarios['admin-create'] = [
-            'title',
-            'alias',
-            'snippet',
-            'content',
-            'status_id',
-            'preview_url',
-            'image_url',
-            'createdAtJui',
-            'updatedAtJui'
+        'dbname',    //'title',
+        'company',    //'alias',
+        'address',  //'snippet',
+        'note',     //'content',
+        'status',    //'status_id',
+        'cuser',    //'',
+        'cphone',    //'',
+               //'image_url',
+        'createdAtJui', //'createdAtJui',
         ];
         $scenarios['admin-update'] = [
-            'title',
-            'alias',
-            'snippet',
-            'content',
-            'status_id',
-            'preview_url',
-            'image_url',
+            'dbname',
+            'company',
+            'address',
+            'note',
+            'status',
+            'cuser',
+            'cphone',
             'createdAtJui',
-            'updatedAtJui'
         ];
 
         return $scenarios;
@@ -155,6 +156,7 @@ class Blog extends \vova07\blogs\models\Blog
         if (parent::beforeSave($insert)) {
             if ($this->_createdAtJui) {
                 $this->created_at = Yii::$app->formatter->asTimestamp($this->_createdAtJui);
+                //创建数据库
             }
             if ($this->_updatedAtJui) {
                 $this->updated_at = Yii::$app->formatter->asTimestamp($this->_updatedAtJui);
@@ -164,4 +166,5 @@ class Blog extends \vova07\blogs\models\Blog
             return false;
         }
     }
+
 }

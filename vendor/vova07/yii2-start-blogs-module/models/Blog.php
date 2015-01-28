@@ -16,12 +16,14 @@ use yii\db\ActiveRecord;
  * Blog model.
  *
  * @property integer $id ID
- * @property string $title Title
- * @property string $alias Alias
- * @property string $snippet Intro text
- * @property string $content Content
- * @property integer $views Views
- * @property integer $status_id Status
+ * @property string $dbname Title //@property string $title Title
+ * @property string $company Alias //@property string $alias Alias
+ * @property string $address Intro text //@property string $snippet Intro text
+ * @property string $note Content //@property string $content Content
+ * @property integer $cuser Views //@property integer $views Views
+ * @property integer $cphone Views //@property integer $views Views
+ * @property integer $status Status //@property integer $status_id Status
+ * @property integer $starttime Created time //@property integer $created_at Created time
  * @property integer $created_at Created time
  * @property integer $updated_at Updated time
  */
@@ -39,7 +41,7 @@ class Blog extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%blogs}}';
+        return '{{%condom}}';
     }
 
     /**
@@ -61,29 +63,29 @@ class Blog extends ActiveRecord
             ],
             'sluggableBehavior' => [
                 'class' => SluggableBehavior::className(),
-                'attribute' => 'title',
-                'slugAttribute' => 'alias'
+                'attribute' => 'dbname',
+                'slugAttribute' => 'company'
             ],
-            'uploadBehavior' => [
-                'class' => UploadBehavior::className(),
-                'attributes' => [
-                    'preview_url' => [
-                        'path' => $this->module->previewPath,
-                        'tempPath' => $this->module->imagesTempPath,
-                        'url' => $this->module->previewUrl
-                    ],
-                    'image_url' => [
-                        'path' => $this->module->imagePath,
-                        'tempPath' => $this->module->imagesTempPath,
-                        'url' => $this->module->imageUrl
-                    ]
-                ]
-            ],
+//            'uploadBehavior' => [
+//                'class' => UploadBehavior::className(),
+//                'attributes' => [
+//                    'preview_url' => [
+//                        'path' => $this->module->previewPath,
+//                        'tempPath' => $this->module->imagesTempPath,
+//                        'url' => $this->module->previewUrl
+//                    ],
+//                    'image_url' => [
+//                        'path' => $this->module->imagePath,
+//                        'tempPath' => $this->module->imagesTempPath,
+//                        'url' => $this->module->imageUrl
+//                    ]
+//                ]
+//            ],
             'purifierBehavior' => [
                 'class' => PurifierBehavior::className(),
                 'attributes' => [
                     self::EVENT_BEFORE_VALIDATE => [
-                        'snippet',
+                        'address',
                         'content' => [
                             'HTML.AllowedElements' => '',
                             'AutoFormat.RemoveEmpty' => true
@@ -91,7 +93,7 @@ class Blog extends ActiveRecord
                     ]
                 ],
                 'textAttributes' => [
-                    self::EVENT_BEFORE_VALIDATE => ['title', 'alias']
+                    self::EVENT_BEFORE_VALIDATE => ['dbname', 'company']
                 ]
             ]
         ];
@@ -104,14 +106,14 @@ class Blog extends ActiveRecord
     {
         return [
             // Required
-            [['title', 'content'], 'required'],
+            [['dbname', 'company'], 'required'],
             // Trim
-            [['title', 'snippet', 'content'], 'trim'],
+            [['dbname', 'company', 'note'], 'trim'],
             // Status
             [
-                'status_id',
+                'status',
                 'default',
-                'value' => $this->module->moderation ? self::STATUS_PUBLISHED : self::STATUS_UNPUBLISHED
+//                'value' => $this->module->moderation ? self::STATUS_PUBLISHED : self::STATUS_UNPUBLISHED
             ]
         ];
     }
@@ -123,16 +125,18 @@ class Blog extends ActiveRecord
     {
         return [
             'id' => Module::t('blogs', 'ATTR_ID'),
-            'title' => Module::t('blogs', 'ATTR_TITLE'),
-            'alias' => Module::t('blogs', 'ATTR_ALIAS'),
-            'snippet' => Module::t('blogs', 'ATTR_SNIPPET'),
-            'content' => Module::t('blogs', 'ATTR_CONTENT'),
-            'views' => Module::t('blogs', 'ATTR_VIEWS'),
-            'status_id' => Module::t('blogs', 'ATTR_STATUS'),
+            'dbname' => Module::t('blogs', 'ATTR_TITLE'),
+            'company' => Module::t('blogs', 'ATTR_ALIAS'),
+            'address' => Module::t('blogs', 'ATTR_SNIPPET'),
+            'note' => Module::t('blogs', 'ATTR_CONTENT'),
+            'cuser' => Module::t('blogs', 'ATTR_CUSER'),
+            'cphone' => Module::t('blogs', 'ATTR_CPHONE'),
+            'status' => Module::t('blogs', 'ATTR_STATUS'),
+            'starttime' => Module::t('blogs', 'ATTR_STARTTIME'),
             'created_at' => Module::t('blogs', 'ATTR_CREATED'),
             'updated_at' => Module::t('blogs', 'ATTR_UPDATED'),
-            'preview_url' => Module::t('blogs', 'ATTR_PREVIEW_URL'),
-            'image_url' => Module::t('blogs', 'ATTR_IMAGE_URL'),
+//            'preview_url' => Module::t('blogs', 'ATTR_PREVIEW_URL'),
+//            'image_url' => Module::t('blogs', 'ATTR_IMAGE_URL'),
         ];
     }
 }

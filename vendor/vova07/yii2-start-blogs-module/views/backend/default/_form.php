@@ -23,38 +23,38 @@ use yii\widgets\ActiveForm;
 <?php $box->beginBody(); ?>
     <div class="row">
         <div class="col-sm-12">
-            <?= $form->field($model, 'title') ?>
+            <?php
+            if($model->isNewRecord)
+                echo $form->field($model, 'dbname');
+            else
+                echo $form->field($model,'dbname')->textInput(['readonly'=>true]);
+           ?>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <?= $form->field($model, 'alias') ?>
+            <?= $form->field($model, 'company') ?>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <?= $form->field($model, 'status_id')->dropDownList($statusArray) ?>
+            <?= $form->field($model, 'cuser') ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <?= $form->field($model, 'cphone') ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <?= $form->field($model, 'status')->dropDownList($statusArray) ?>
 
         </div>
     </div>
     <div class="row">
         <div class="col-sm-6">
-            <?= $form->field($model, 'createdAtJui')->widget(
-                DatePicker::className(),
-                [
-                    'options' => [
-                        'class' => 'form-control'
-                    ],
-                    'clientOptions' => [
-                        'dateFormat' => 'dd.mm.yy',
-                        'changeMonth' => true,
-                        'changeYear' => true
-                    ]
-                ]
-            ); ?>
-        </div>
-        <div class="col-sm-6">
-            <?= $form->field($model, 'updatedAtJui')->widget(
+            <?= $form->field($model, 'starttime')->widget(
                 DatePicker::className(),
                 [
                     'options' => [
@@ -71,29 +71,22 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="row">
         <div class="col-sm-6">
-            <?= $form->field($model, 'preview_url')->widget(
-                FileAPI::className(),
-                [
-                    'settings' => [
-                        'url' => ['/blogs/default/fileapi-upload']
-                    ]
-                ]
-            ) ?>
+<!--            --><?//= $form->field($model, 'preview_url')->widget(
+//                FileAPI::className(),
+//                [
+//                    'settings' => [
+//                        'url' => ['/blogs/default/fileapi-upload']
+//                    ]
+//                ]
+//            ) ?>
         </div>
         <div class="col-sm-6">
-            <?= $form->field($model, 'image_url')->widget(
-                FileAPI::className(),
-                [
-                    'settings' => [
-                        'url' => ['/blogs/default/fileapi-upload']
-                    ]
-                ]
-            ) ?>
+
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <?= $form->field($model, 'snippet')->widget(
+            <?= $form->field($model, 'address')->widget(
                 Imperavi::className(),
                 [
                     'settings' => [
@@ -108,7 +101,7 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <?= $form->field($model, 'content')->widget(
+            <?= $form->field($model, 'note')->widget(
                 Imperavi::className(),
                 [
                     'settings' => [

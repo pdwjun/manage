@@ -1,5 +1,38 @@
 <?php
 return [
+    'editor' => [
+        'type' => 1,
+        'description' => 'User',
+        'ruleName' => 'author',
+        'data' => 'account',
+        'children' => [
+            'admin',
+            'account',
+            'accessBackend',
+            'administrateRbac',
+        ],
+    ],
+    'admin' => [
+        'type' => 1,
+        'description' => 'Admin',
+    ],
+    'account' => [
+        'type' => 1,
+        'description' => 'normal user',
+        'data' => 'data',
+    ],
+    'superadmin' => [
+        'type' => 1,
+        'description' => 'Super admin',
+        'children' => [
+            'admin',
+            'accessBackend',
+            'administrateRbac',
+            'administrateUsers',
+            'administrateBlogs',
+            'administrateComments',
+        ],
+    ],
     'accessBackend' => [
         'type' => 2,
         'description' => 'Can access backend',
@@ -69,29 +102,6 @@ return [
     'BDeleteRules' => [
         'type' => 2,
         'description' => 'Can delete rules',
-    ],
-    'user' => [
-        'type' => 1,
-        'description' => 'User',
-    ],
-    'admin' => [
-        'type' => 1,
-        'description' => 'Admin',
-        'children' => [
-            'user',
-        ],
-    ],
-    'superadmin' => [
-        'type' => 1,
-        'description' => 'Super admin',
-        'children' => [
-            'admin',
-            'accessBackend',
-            'administrateRbac',
-            'administrateUsers',
-            'administrateBlogs',
-            'administrateComments',
-        ],
     ],
     'administrateUsers' => [
         'type' => 2,
