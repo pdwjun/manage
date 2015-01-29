@@ -79,4 +79,17 @@ class Module extends \yii\base\Module
     {
         return Yii::t(static::$author . '/' . $category, $message, $params, $language);
     }
+
+    public static function getRoles($condom){
+        $arr = Yii::$app->authManager->getRoles();
+        if($condom!=""){
+            $roles = array();
+            foreach ($arr as $item) {
+                if(isset($item->data)&&$item->data==$condom)
+                    $roles[$item->name] = $item;
+            }
+            return $roles;
+        }else
+            return $arr;
+    }
 }

@@ -22,24 +22,28 @@ use yii\widgets\ActiveForm;
 <?php $box->beginBody(); ?>
     <div class="row">
         <div class="col-sm-2">
-            <?= Html::activeLabel($model,'dbname');?>:
-            <?=$model->dbname?>
+            <?= Html::activeLabel($model, 'dbname'); ?>:
+            <?= $model->dbname ?>
         </div>
         <div class="col-sm-2">
-            <?= Html::activeLabel($model,'company');?>:
-            <?=$model->company?>
+            <?= Html::activeLabel($model, 'company'); ?>:
+            <?= $model->company ?>
         </div>
         <div class="col-sm-2">
-            <?= Html::activeLabel($model,'cuser');?>:
-            <?=$model->cuser?>
+            <?= Html::activeLabel($model, 'cuser'); ?>:
+            <?= $model->cuser ?>
         </div>
         <div class="col-sm-2">
-            <?= Html::activeLabel($model,'cphone');?>:
-            <?=$model->cphone?>
+            <?= Html::activeLabel($model, 'cphone'); ?>:
+            <?= $model->cphone ?>
         </div>
         <div class="col-sm-2">
-            <?= Html::activeLabel($model,'status');?>:
-            <?=Module::t('blogs',$model->status? "STATUS_PUBLISHED" : "STATUS_UNPUBLISHED")?>
+            <?= Html::activeLabel($model, 'status'); ?>:
+            <?= Module::t('blogs', $model->status ? "STATUS_PUBLISHED" : "STATUS_UNPUBLISHED") ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
         </div>
     </div>
 <?php $box->endBody(); ?>

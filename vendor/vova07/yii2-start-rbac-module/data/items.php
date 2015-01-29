@@ -5,12 +5,6 @@ return [
         'description' => 'User',
         'ruleName' => 'author',
         'data' => 'account',
-        'children' => [
-            'admin',
-            'account',
-            'accessBackend',
-            'administrateRbac',
-        ],
     ],
     'admin' => [
         'type' => 1,

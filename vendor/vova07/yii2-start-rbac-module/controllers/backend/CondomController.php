@@ -3,12 +3,12 @@
 namespace vova07\rbac\controllers\backend;
 
 use vova07\admin\components\Controller;
-//use vova07\rbac\models\Role;
 use vova07\blogs\models\backend\Blog;
 use vova07\blogs\models\backend\BlogSearch;
+use vova07\rbac\models\AccessSearch;
+use vova07\rbac\models\Access;
 use vova07\rbac\Module;
 use Yii;
-use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
@@ -138,8 +138,14 @@ class CondomController extends Controller
             }
         }
 
+        $users = Module::getRoles('account');
+        $searchModel = new AccessSearch();
+        $dataProvider = $searchModel->searchByCondom($id);
         return $this->render('update', [
             'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'users' => $users,
             'statusArray' => $statusArray
         ]);
     }
