@@ -39,7 +39,7 @@ $gridConfig = [
             'value' => function ($model) {
                 return Html::a(
                     $model['company'],
-                    ['update', 'id' => $model['id']]
+                    ['update', ['id' => $model['id'],'type'=>'','']]
                 );
             }
         ],

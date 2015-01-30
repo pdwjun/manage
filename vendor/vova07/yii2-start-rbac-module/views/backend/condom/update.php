@@ -12,6 +12,7 @@
 
 use vova07\themes\admin\widgets\Box;
 use vova07\blogs\Module;
+use vova07\roles\models\Role;
 use vova07\themes\admin\widgets\GridView;
 use vova07\users\models\backend\AccessSearch;
 use yii\helpers\Html;
@@ -59,10 +60,20 @@ $this->params['breadcrumbs'] = [
             [
                 'class' => CheckboxColumn::classname()
             ],
-            'id',
+            [
+                'attribute' => 'id',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a(
+                        $model['id'],
+                        ['update', ['id' => $model['id'],'type'=> "1",'role_id'=>$model['role_id']]]
+                    );
+                }
+            ],
             [
                 'label' => '登陆账号',
                 'attribute' => 'user_id',
+                'format' => 'html',
                 'value' => 'users.username'
             ],
             [
@@ -73,7 +84,14 @@ $this->params['breadcrumbs'] = [
             [
                 'label' => '角色名称',
                 'attribute' => 'role_id',
-                'value' => 'roles.name'
+                'value' => function($model){
+
+                    $connection = Yii::$app->db;
+                    $sql = 'select name from `yii2_start_roles` where id='. $model->role_id;
+                    $list = $connection->createCommand($sql)->queryAll();
+                    return $list[0]['name'];
+                }
+
             ],
         ]
     ];

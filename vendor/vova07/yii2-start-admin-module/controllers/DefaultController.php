@@ -3,6 +3,8 @@
 namespace vova07\admin\controllers;
 
 use vova07\admin\components\Controller;
+use vova07\rbac\models\Access;
+use Yii;
 
 /**
  * Backend default controller.
@@ -42,6 +44,12 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $user_id = Yii::$app->user->id;
+        $list = Access::getCondomList($user_id);
+
+        return $this->render('index',
+            [
+                'condomlist'=>$list,
+            ]);
     }
 }

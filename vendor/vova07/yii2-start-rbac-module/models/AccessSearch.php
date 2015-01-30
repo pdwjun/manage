@@ -118,7 +118,7 @@ class AccessSearch extends Access
      */
     public function searchByCondom($id)
     {
-        $query = self::find()->joinWith(['profile'],['users']);
+        $query = self::find()->joinWith(['profile'],['roles'],['users']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

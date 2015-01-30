@@ -10,7 +10,7 @@ use Yii;
 /**
  * User search model.
  */
-class RolesSearch extends Role
+class RoleSearch extends RoleManage
 {
     /**
      * @var string Name
@@ -118,7 +118,7 @@ class RolesSearch extends Role
      */
     public function searchByCondom($id)
     {
-        $query = self::find()->joinWith(['profile'],['users']);
+        $query = self::find()->joinWith(['profile'],['roles'],['users']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

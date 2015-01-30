@@ -291,7 +291,7 @@ class Access extends ActiveRecord implements IdentityInterface
 
     public function getRoles()
     {
-        return $this->hasOne(Access::className(), ['id' => 'role_id']);
+//        return $this->hasOne(Role::className(), ['id' => 'role_id']);
     }
 
     public function getUsers()
@@ -381,5 +381,29 @@ class Access extends ActiveRecord implements IdentityInterface
             self::STATUS_INACTIVE => Module::t('users', 'STATUS_INACTIVE'),
             self::STATUS_BANNED => Module::t('users', 'STATUS_BANNED')
         ];
+    }
+    public static function getParams($id){
+        if($id=="")
+            return "";
+        $con = Yii::$app->db;
+        $sql = 'select * from `yii2_start_access` where id='. $id;
+        $param = $con->createCommand($sql)->queryAll();
+        if(!empty($param))
+            return $param[0];
+        else
+            return "";
+
+    }
+    public static function getCondomList($user_id){
+        if($user_id=="")
+            return  "";
+        $con = Yii::$app->db;
+        $sql = 'select * from '. Access::tableName(). ' where user_id='. $user_id;
+        $list = $con->createCommand($sql)->queryAll();
+        if(!empty($list))
+            return $list;
+        else
+            return "";
+
     }
 }

@@ -350,4 +350,15 @@ class User extends ActiveRecord implements IdentityInterface
         $this->setPassword($password);
         return $this->save(false);
     }
+    public static function getNameByID($id){
+        if($id=='')
+            return "";
+        $connection = Yii::$app->db;
+        $sql = 'select username from `yii2_start_users` where id='. $id;
+        $list = $connection->createCommand($sql)->queryAll();
+        if($list)
+            return $list[0]['username'];
+        else
+            return "";
+    }
 }

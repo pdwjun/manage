@@ -5,15 +5,20 @@ namespace vova07\rbac\controllers\backend;
 use vova07\admin\components\Controller;
 use vova07\blogs\models\backend\Blog;
 use vova07\blogs\models\backend\BlogSearch;
-use vova07\rbac\models\AccessSearch;
 use vova07\rbac\models\Access;
+use vova07\rbac\models\AccessSearch;
+use vova07\rbac\models\RoleManage;
+use vova07\rbac\models\Role;
 use vova07\rbac\Module;
+use vova07\roles\models\backend\rolesearch;
+use vova07\users\models\backend\UserSearch;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\HttpException;
 use yii\web\Response;
+use yii\web\User;
 
 /**
  * Roles controller.
@@ -118,38 +123,96 @@ class CondomController extends Controller
      *
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
-        $model = $this->findModel($id);
+        $id = $_REQUEST[1]['id'];
+        $type = $_REQUEST[1]['type'];
+        if($type=='1'&&isset($_REQUEST[1]['role_id'])){
+//            $this->editCondom($id,$_REQUEST[1]['role_id']);
+            $role_id = $_REQUEST[1]['role_id'];
+        $name = $this->getNameByID($role_id);
+        $model = Role::findIdentity($name);
         $model->setScenario('admin-update');
         $statusArray = Blog::getStatusArray();
-
+//        $roleArray = ArrayHelper::map($model->roles, 'name', 'name');
+            //账套下的角色列表
+        $roleArray = $this->getRoleArray(1);
+        $ruleArray = ArrayHelper::map($model->rules, 'name', 'name');
+        $permissionArray = ArrayHelper::map($model->permissions, 'name', 'name');
         if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate()) {
-                if ($model->save(false)) {
-                    return $this->refresh();
-                } else {
-                    Yii::$app->session->setFlash('danger', Module::t('blogs', 'BACKEND_FLASH_FAIL_ADMIN_UPDATE'));
-                    return $this->refresh();
-                }
-            } elseif (Yii::$app->request->isAjax) {
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                return ActiveForm::validate($model);
-            }
+            //保存access权限数据
+//            $role_id = $_POST['Role']['role_id'];
+//            $name = $_POST['Role']['name'];
+            if($this->saveAccess())
+                return $this->refresh();
+            else
+//                Yii::$app->session->setFlash('danger', Module::t('blogs', 'BACKEND_FLASH_FAIL_ADMIN_UPDATE'));
+                return $this->refresh();
+//            $id =
+//            if ($model->validate()) {
+//            if ($model->save(false)) {
+//                return $this->refresh();
+//            } else {
+//                Yii::$app->session->setFlash('danger', Module::t('blogs', 'BACKEND_FLASH_FAIL_ADMIN_UPDATE'));
+//                return $this->refresh();
+//            }
+//            } elseif (Yii::$app->request->isAjax) {
+//                Yii::$app->response->format = Response::FORMAT_JSON;
+//                return ActiveForm::validate($model);
+//            }
         }
 
-        $users = Module::getRoles('account');
-        $searchModel = new AccessSearch();
-        $dataProvider = $searchModel->searchByCondom($id);
-        return $this->render('update', [
+        return $this->render('edit', [
+            'access_id' => $id,
             'model' => $model,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'users' => $users,
+            'role_id' => $role_id,
+            'roleArray' => $roleArray,
+            'ruleArray' => $ruleArray,
+            'permissionArray' => $permissionArray,
             'statusArray' => $statusArray
-        ]);
+        ]);}
+        else {
+            $model = $this->findModel($id);
+            $model->setScenario('admin-update');
+            $statusArray = Blog::getStatusArray();
+
+            if ($model->load(Yii::$app->request->post())) {
+                if ($model->validate()) {
+                    if ($model->save(false)) {
+                        return $this->refresh();
+                    } else {
+                        Yii::$app->session->setFlash('danger', Module::t('blogs', 'BACKEND_FLASH_FAIL_ADMIN_UPDATE'));
+                        return $this->refresh();
+                    }
+                } elseif (Yii::$app->request->isAjax) {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ActiveForm::validate($model);
+                }
+            }
+
+            $users = Module::getRoles('account');
+            $searchModel = new AccessSearch();
+            $dataProvider = $searchModel->searchByCondom($id);
+            return $this->render('update', [
+                'model' => $model,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'users' => $users,
+                'statusArray' => $statusArray
+            ]);
+        }
     }
 
+    /**
+     * Update post page.
+     *
+     * @param integer $id Post ID
+     *
+     * @return mixed
+     */
+    public function editCondom($id,$role_id)
+    {
+    }
     /**
      * Delete role page.
      *
@@ -229,5 +292,41 @@ class CondomController extends Controller
         } else {
             throw new HttpException(404);
         }
+    }
+
+    public static function getNameByID($role_id){
+
+        $connection = Yii::$app->db;
+        $sql = 'select name from `yii2_start_roles` where id='. $role_id;
+        $list = $connection->createCommand($sql)->queryAll();
+        if($list)
+            return $list[0]['name'];
+        else
+            return "";
+    }
+
+    public static function getRoleArray($condom_id){
+        $connection = Yii::$app->db;
+        $sql = 'select * from `yii2_start_roles` where condom_id='. $condom_id;
+        $list = $connection->createCommand($sql)->queryAll();
+        $roleArray = array();
+        if(!empty($list))
+        {
+            foreach ($list as $item) {
+                $roleArray[$item['id']] = $item['name'];
+            }
+        }
+        return $roleArray;
+    }
+
+    public function saveAccess(){
+        $access = $_REQUEST['Role'];
+        $connection = Yii::$app->db;
+        $sql = 'update `yii2_start_access` set role_id='. $access['role_id']. ' where id='. $access['id'];
+        $result = $connection->createCommand($sql)->execute();
+        if($result)
+            return true;
+        else
+            return false;
     }
 }

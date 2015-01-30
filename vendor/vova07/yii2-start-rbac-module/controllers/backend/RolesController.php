@@ -67,8 +67,7 @@ class RolesController extends Controller
     public function actionIndex()
     {
         $provider = new ArrayDataProvider([
-//            'allModels' => Yii::$app->authManager->getRoles(),
-            'allModels' => $this->getRoles('account'),
+            'allModels' => Yii::$app->authManager->getRoles(),
             'key' => function ($model) {
                 return ['name' => $model->name];
             },
@@ -204,18 +203,4 @@ class RolesController extends Controller
             throw new HttpException(404, Module::t('rbac', 'BACKEND_ROLES_NOT_FOUND'));
         }
     }
-
-    protected function getRoles($condom){
-        $arr = Yii::$app->authManager->getRoles();
-        $roles = array();
-        if($condom!=""){
-            foreach ($arr as $item) {
-                if(isset($item->data)&&$item->data==$condom)
-                    $roles[$item->name] = $item;
-
-            }
-        }
-        return $roles;
-    }
-
 }

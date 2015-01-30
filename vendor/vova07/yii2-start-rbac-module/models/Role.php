@@ -22,6 +22,7 @@ use yii\base\Model;
  */
 class Role extends Model
 {
+    public $id;
     /**
      * @var string Role name
      */
@@ -31,6 +32,7 @@ class Role extends Model
      * @var string Rule name
      */
     public $ruleName;
+    public $role_id;
 
     /**
      * @var string Role description
@@ -66,22 +68,6 @@ class Role extends Model
      * @var \yii\rbac\Rule[]|null Rules array
      */
     protected $_rules;
-
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%roles}}';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function find()
-    {
-        return new AccessQuery(get_called_class());
-    }
 
     /**
      * Find role by name.
