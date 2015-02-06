@@ -7,6 +7,7 @@
  */
 namespace common;
 
+use vova07\rbac\models\Access;
 use vova07\users\models\frontend\User;
 use yii\base\Model;
 use yii;
@@ -49,6 +50,20 @@ class account extends Model{
         $sql = 'select count(*) as a from '. User::tableName(). ' where `group`='. $group;
         $list = $con->createCommand($sql)->queryAll();
         return $list[0]['a'];
+    }
+
+    /**
+     * 检查账套数
+     */
+    public static function conMount(){
+        $user_id = Yii::$app->getUser()->id;
+        $con = Yii::$app->db;
+        $sql = 'select count(*) as a from '. Access::tableName(). '  where user_id='. $user_id;
+        $list = $con->createCommand($sql)->queryAll();
+        if(!empty($list))
+            return $list[0]['a'];
+        else
+            return 0;
     }
 
 }

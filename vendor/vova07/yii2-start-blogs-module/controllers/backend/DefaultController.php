@@ -9,12 +9,12 @@ use vova07\fileapi\actions\UploadAction as FileAPIUpload;
 use vova07\imperavi\actions\GetAction as ImperaviGet;
 use vova07\imperavi\actions\UploadAction as ImperaviUpload;
 use vova07\rbac\models\Access;
-use Yii;
-use yii\db\Query;
 use yii\filters\VerbFilter;
 use yii\web\HttpException;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
+use Yii;
+use common\account;
 
 /**
  * Default backend controller.
@@ -120,6 +120,14 @@ class DefaultController extends Controller
      */
     public function actionCreate()
     {
+        if(account::conMount()>0)
+        {
+            if(!account::checkVIP())
+            {
+                Yii::$app->session->setFlash('danger', '普通用户只能添加1个账套，请付费升级至VIP');
+                return $this->redirect(['index']);
+            }
+        }
         $model = new Blog(['scenario' => 'admin-create']);
         $statusArray = Blog::getStatusArray();
 

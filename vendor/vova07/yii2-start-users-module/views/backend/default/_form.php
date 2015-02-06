@@ -60,7 +60,9 @@ use vova07\rbac\models\Access;
                 <label class="control-label" for="user-status_id">账套</label>
                 <?
                 $list = Access::getCondomList($user->id);
-                $select = empty($list)?"":$list[0]['condom_id'];
+                foreach($list as $item){
+                    $select[] = $item['condom_id'];
+                }
                 $list = Access::getCondomList(Yii::$app->getUser()->id);
                 foreach ($list as $item) {
                     $items[$item['condom_id']] = $item['dbname'].'/'.$item['company'];
@@ -73,7 +75,7 @@ use vova07\rbac\models\Access;
                     $items,
                     [
                         'class'=>'form-control',
-//                        'multiple' => true,     //账套应该可以多选
+                        'multiple' => true,     //账套应该可以多选
                         'placeholder' => Module::t('rbac', 'BACKEND_ROLES_PERMISSIONS_PROMPT')
                     ]
                     )

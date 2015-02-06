@@ -54,4 +54,7 @@ return [
     39 => [
         'superadmin',
     ],
+    40 => [
+        'superadmin',
+    ],
 ];

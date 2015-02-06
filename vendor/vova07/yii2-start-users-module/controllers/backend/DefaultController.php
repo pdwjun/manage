@@ -128,7 +128,7 @@ class DefaultController extends Controller
                 if ($user->save(false)) {
                     //添加新用户到access表
                     $user_id = Yii::$app->db->lastInsertID;
-                    Access::addNew($user_id,$user->condom_id);
+                    Access::addNew($user_id,$_POST['condom']);
                     return $this->redirect(['update', 'id' => $user->id]);
                 } else {
                     Yii::$app->session->setFlash('danger', Module::t('users', 'BACKEND_FLASH_FAIL_ADMIN_CREATE'));
@@ -173,8 +173,10 @@ class DefaultController extends Controller
                 }
 
                 //添加新用户到access表
-                $condom_id = $_POST['condom'];
-                Access::addNew($id,$condom_id);
+                foreach($_POST['condom'] as $item){
+                    $condom_list[] = $item;
+                }
+                Access::updateAccess($id,$condom_list);
                 return $this->refresh();
             } elseif (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;

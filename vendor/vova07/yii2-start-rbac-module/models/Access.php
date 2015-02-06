@@ -428,17 +428,30 @@ class Access extends ActiveRecord implements IdentityInterface
      */
     public static function addNew($user_id,$con_id){
         $con = Yii::$app->db;
-        $sql = 'select * from '. self::tableName(). ' where user_id='. $user_id;
-        $result = $con->createCommand($sql)->queryAll();
-        $con->close();
-        if(!empty($result))
-            $sql = 'update '. self::tableName(). ' set condom_id='. $con_id. ' where id='.$result[0]['id'];
-        else
-            $sql = 'insert into '. self::tableName(). '(id,user_id,condom_id,role_id)value("",'.$user_id.','.$con_id.',2)';
+        $sql = 'insert into '. self::tableName(). '(id,user_id,condom_id,role_id)value("",'.$user_id.','.$con_id.',2)';
 
         if($con->createCommand($sql)->execute())
             return true;
         else
             return false;
+    }
+
+    /**
+     * 关系表,可能会造成账套权限的bug，后期修改为可管理多账套
+     * @param $user_id
+     * @param $con_id
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public static function updateAccess($user_id,$con_list){
+        $con = Yii::$app->db;
+        $sql = 'delete from '. self::tableName(). ' where user_id='. $user_id;
+        $con->createCommand($sql)->execute();
+        $con->close();
+        $sql = "";
+        foreach($con_list as $item){
+            $sql .= 'insert into '. self::tableName(). '(id,user_id,condom_id,role_id)value("",'.$user_id.','.$item.',2);';
+        }
+        $con->createCommand($sql)->execute();
     }
 }
