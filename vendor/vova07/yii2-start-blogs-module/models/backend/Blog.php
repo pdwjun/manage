@@ -100,7 +100,7 @@ class Blog extends \vova07\blogs\models\Blog
     {
         $rules = parent::rules();
         $rules[] = ['status', 'in', 'range' => array_keys(self::getStatusArray())];
-        $rules[] = [['createdAtJui', 'updatedAtJui'], 'date'];
+        $rules[] = [['createdAtJui', 'updatedAtJui', 'starttime'], 'date'];
 
         return $rules;
     }

@@ -45,25 +45,28 @@ class GuestController extends Controller
         if (!Yii::$app->user->isGuest) {
             $this->goHome();
         }
+        else
+            return Yii::$app->getResponse()->redirect('/frontend/web/index.php?r=users/guest/login');
 
-        $model = new LoginForm();
-
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate()) {
-                if ($model->login()) {
-                    return $this->goHome();
-                }
-            } elseif (Yii::$app->request->isAjax) {
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                return ActiveForm::validate($model);
-            }
-        }
-
-        return $this->render(
-            'login',
-            [
-                'model' => $model
-            ]
-        );
+//
+//        $model = new LoginForm();
+//
+//        if ($model->load(Yii::$app->request->post())) {
+//            if ($model->validate()) {
+//                if ($model->login()) {
+//                    return $this->goHome();
+//                }
+//            } elseif (Yii::$app->request->isAjax) {
+//                Yii::$app->response->format = Response::FORMAT_JSON;
+//                return ActiveForm::validate($model);
+//            }
+//        }
+//
+//        return $this->render(
+//            'login',
+//            [
+//                'model' => $model
+//            ]
+//        );
     }
 }

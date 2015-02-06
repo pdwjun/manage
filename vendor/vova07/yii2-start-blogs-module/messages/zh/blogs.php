@@ -27,7 +27,7 @@ return [
     'ATTR_PREVIEW_URL' => 'Preview',             // 'ATTR_PREVIEW_URL' => 'Preview',
     'ATTR_SNIPPET' => '地址',             // 'ATTR_SNIPPET' => 'Intro',
     'ATTR_STATUS' => '状态',             // 'ATTR_STATUS' => 'Status',
-    'ATTR_TITLE' => '数据库',             // 'ATTR_TITLE' => 'Title',
+    'ATTR_TITLE' => '账套',             // 'ATTR_TITLE' => 'Title',
     'ATTR_UPDATED' => '更新时间',             // 'ATTR_UPDATED' => 'Updated at',
     'ATTR_STARTTIME' => '账套起始时间',             // 'ATTR_UPDATED' => 'Updated at',
     'ATTR_VIEWS' => 'Views',             // 'ATTR_VIEWS' => 'Views',

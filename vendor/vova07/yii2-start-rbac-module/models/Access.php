@@ -46,7 +46,7 @@ class Access extends ActiveRecord implements IdentityInterface
     /**
      * Default role
      */
-    const ROLE_DEFAULT = 'user';
+    const ROLE_DEFAULT = 2;
 
     /**
      * @inheritdoc
@@ -394,16 +394,51 @@ class Access extends ActiveRecord implements IdentityInterface
             return "";
 
     }
-    public static function getCondomList($user_id){
+    public static function getCondomID($user_id){
         if($user_id=="")
             return  "";
         $con = Yii::$app->db;
-        $sql = 'select * from '. Access::tableName(). ' where user_id='. $user_id;
+        $sql = 'select a.* from '. Access::tableName(). ' as a  where  user_id='. $user_id;
         $list = $con->createCommand($sql)->queryAll();
         if(!empty($list))
             return $list;
         else
-            return "";
+            return array();
 
+    }
+    public static function getCondomList($user_id){
+        if($user_id=="")
+            return  "";
+        $con = Yii::$app->db;
+        $sql = 'select a.*,b.dbname,b.company from '. Access::tableName(). ' as a ,'. Condom::tableName().' as b where condom_id=b.id and user_id='. $user_id;
+        $list = $con->createCommand($sql)->queryAll();
+        if(!empty($list))
+            return $list;
+        else
+            return array();
+
+    }
+
+    /**
+     * 关系表,可能会造成账套权限的bug，后期修改为可管理多账套
+     * @param $user_id
+     * @param $con_id
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public static function addNew($user_id,$con_id){
+        $con = Yii::$app->db;
+        $sql = 'select * from '. self::tableName(). ' where user_id='. $user_id;
+        $result = $con->createCommand($sql)->queryAll();
+        $con->close();
+        if(!empty($result))
+            $sql = 'update '. self::tableName(). ' set condom_id='. $con_id. ' where id='.$result[0]['id'];
+        else
+            $sql = 'insert into '. self::tableName(). '(id,user_id,condom_id,role_id)value("",'.$user_id.','.$con_id.',2)';
+
+        if($con->createCommand($sql)->execute())
+            return true;
+        else
+            return false;
     }
 }

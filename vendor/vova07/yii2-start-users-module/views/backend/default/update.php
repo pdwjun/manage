@@ -8,6 +8,7 @@
  * @var \vova07\users\models\Profile $profile Profile
  * @var array $roleArray Roles array
  * @var array $statusArray Statuses array
+ * @var array $vipArray VIP array
  * @var \vova07\themes\admin\widgets\Box $box Box widget instance
  */
 
@@ -54,6 +55,7 @@ $boxButtons = !empty($boxButtons) ? implode(' ', $boxButtons) : null; ?>
                 'profile' => $profile,
                 'roleArray' => $roleArray,
                 'statusArray' => $statusArray,
+                'vipArray' => $vipArray,
                 'box' => $box
             ]
         );

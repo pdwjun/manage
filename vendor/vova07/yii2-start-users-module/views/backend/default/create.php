@@ -45,6 +45,7 @@ $this->params['breadcrumbs'] = [
                 'profile' => $profile,
                 'roleArray' => $roleArray,
                 'statusArray' => $statusArray,
+                'vipArray' => $vipArray,
                 'box' => $box
             ]
         );

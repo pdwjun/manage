@@ -73,9 +73,13 @@ class Profile extends ActiveRecord
     {
         return [
             // Name
-            ['name', 'match', 'pattern' => '/^[a-zа-яё]+$/iu'],
+//            ['name', 'match', 'pattern' => '/^[a-zа-яё]+$/iu'],
+        //真实姓名 中英文，数字
+            ['name', 'match', 'pattern' => '/^[\x{4e00}-\x{9fa5}_a-zA-Z0-9_]+$/iu'],
             // Surname
-            ['surname', 'match', 'pattern' => '/^[a-zа-яё]+(-[a-zа-яё]+)?$/iu']
+            ['surname', 'match', 'pattern' => '/^[a-zа-яё]+(-[a-zа-яё]+)?$/iu'],
+            ['phone', 'unique'],
+            ['phone', 'string', 'max'=>11]
         ];
     }
 
@@ -86,7 +90,9 @@ class Profile extends ActiveRecord
     {
         return [
             'name' => Module::t('users', 'ATTR_NAME'),
-            'surname' => Module::t('users', 'ATTR_SURNAME')
+            'surname' => Module::t('users', 'ATTR_SURNAME'),
+            'phone' => Module::t('users', 'ATTR_PHONE'),
+            'condom' => Module::t('users', 'ATTR_CONDOM')
         ];
     }
 

@@ -14,14 +14,14 @@ echo Menu::widget(
             'class' => isset($footer) ? 'pull-right' : 'nav navbar-nav navbar-right'
         ],
         'items' => [
-            [
-                'label' => Yii::t('vova07/themes/site', 'Blogs'),
-                'url' => ['/blogs/default/index']
-            ],
-            [
-                'label' => Yii::t('vova07/themes/site', 'Contacts'),
-                'url' => ['/site/default/contacts']
-            ],
+//            [
+//                'label' => Yii::t('vova07/themes/site', 'Blogs'),
+//                'url' => ['/blogs/default/index']
+//            ],
+//            [
+//                'label' => Yii::t('vova07/themes/site', 'Contacts'),
+//                'url' => ['/site/default/contacts']
+//            ],
             [
                 'label' => Yii::t('vova07/themes/site', 'Sign In'),
                 'url' => ['/users/guest/login'],

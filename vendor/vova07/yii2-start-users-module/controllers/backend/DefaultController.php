@@ -2,9 +2,11 @@
 
 namespace vova07\users\controllers\backend;
 
+use common\account;
 use vova07\admin\components\Controller;
 use vova07\fileapi\actions\UploadAction as FileAPIUpload;
 use vova07\users\models\backend\User;
+use vova07\rbac\models\Access;
 use vova07\users\models\backend\UserSearch;
 use vova07\users\models\Profile;
 use vova07\users\Module;
@@ -89,11 +91,13 @@ class DefaultController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->get());
         $statusArray = User::getStatusArray();
         $roleArray = User::getRoleArray();
+        $vipArray = User::getVipArray();
 
         return $this->render('index', [
                 'dataProvider' => $dataProvider,
                 'searchModel' => $searchModel,
                 'roleArray' => $roleArray,
+                'vipArray' => $vipArray,
                 'statusArray' => $statusArray
             ]);
     }
@@ -103,15 +107,28 @@ class DefaultController extends Controller
      */
     public function actionCreate()
     {
+        if(account::userMount()>1)
+        {
+            if(!account::checkVIP())
+            {
+                Yii::$app->session->setFlash('danger', '普通用户只能添加1个账号，请付费升级至VIP');
+                return $this->redirect(['index']);
+            }
+        }
+
         $user = new User(['scenario' => 'admin-create']);
         $profile = new Profile();
         $statusArray = User::getStatusArray();
         $roleArray = User::getRoleArray();
+        $vipArray = User::getVipArray();
 
         if ($user->load(Yii::$app->request->post()) && $profile->load(Yii::$app->request->post())) {
             if ($user->validate() && $profile->validate()) {
                 $user->populateRelation('profile', $profile);
                 if ($user->save(false)) {
+                    //添加新用户到access表
+                    $user_id = Yii::$app->db->lastInsertID;
+                    Access::addNew($user_id,$user->condom_id);
                     return $this->redirect(['update', 'id' => $user->id]);
                 } else {
                     Yii::$app->session->setFlash('danger', Module::t('users', 'BACKEND_FLASH_FAIL_ADMIN_CREATE'));
@@ -127,6 +144,7 @@ class DefaultController extends Controller
                 'user' => $user,
                 'profile' => $profile,
                 'roleArray' => $roleArray,
+                'vipArray' => $vipArray,
                 'statusArray' => $statusArray
             ]);
     }
@@ -145,6 +163,7 @@ class DefaultController extends Controller
         $profile = $user->profile;
         $statusArray = User::getStatusArray();
         $roleArray = User::getRoleArray();
+        $vipArray = User::getVipArray();
 
         if ($user->load(Yii::$app->request->post()) && $profile->load(Yii::$app->request->post())) {
             if ($user->validate() && $profile->validate()) {
@@ -152,6 +171,10 @@ class DefaultController extends Controller
                 if (!$user->save(false)) {
                     Yii::$app->session->setFlash('danger', Module::t('users', 'BACKEND_FLASH_FAIL_ADMIN_CREATE'));
                 }
+
+                //添加新用户到access表
+                $condom_id = $_POST['condom'];
+                Access::addNew($id,$condom_id);
                 return $this->refresh();
             } elseif (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
@@ -163,6 +186,7 @@ class DefaultController extends Controller
                 'user' => $user,
                 'profile' => $profile,
                 'roleArray' => $roleArray,
+                'vipArray' => $vipArray,
                 'statusArray' => $statusArray
             ]);
     }

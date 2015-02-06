@@ -1,6 +1,13 @@
 <?php
 
+$host = explode('.', $_SERVER["HTTP_HOST"]);
+if (count($host) > 2) {
+    define('DOMAIN', $host[1] . '.' . $host[2]);
+} else {
+    define('DOMAIN', $host[0] . '.' . $host[1]);
+}
 return [
+    'id' => 'abc.com',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'timeZone' => 'Europe/Moscow',
     'modules' => [
@@ -39,9 +46,16 @@ return [
           ],
         ],
         'user' => [
+            'enableAutoLogin' => true,
+            'identityCookie' => ['name' => '_identity', 'httpOnly' => true, 'domain' => '.' . DOMAIN],
             'class' => 'yii\web\User',
             'identityClass' => 'vova07\users\models\User',
             'loginUrl' => ['/users/guest/login']
+        ],
+        'session' => [
+            'savePath' => 'd:/temp',
+            'cookieParams' => ['domain' => '.' . DOMAIN, 'lifetime' => 0],
+            'timeout' => 3600,
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',

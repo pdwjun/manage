@@ -26,14 +26,14 @@ $this->params['breadcrumbs'] = [
     ]
 ); ?>
     <fieldset class="registration-form">
+        <?= $form->field($user, 'username')->textInput(
+            ['placeholder' => '用户名']
+        )->label(false) ?>
         <?= $form->field($profile, 'name')->textInput(
             ['placeholder' => $profile->getAttributeLabel('name')]
         )->label(false) ?>
-        <?= $form->field($profile, 'surname')->textInput(
-            ['placeholder' => $profile->getAttributeLabel('surname')]
-        )->label(false) ?>
-        <?= $form->field($user, 'username')->textInput(
-            ['placeholder' => $user->getAttributeLabel('username')]
+        <?= $form->field($profile, 'phone')->textInput(
+            ['placeholder' => $profile->getAttributeLabel('phone')]
         )->label(false) ?>
         <?= $form->field($user, 'email')->textInput(
             ['placeholder' => $user->getAttributeLabel('email')]
@@ -44,23 +44,23 @@ $this->params['breadcrumbs'] = [
         <?= $form->field($user, 'repassword')->passwordInput(
             ['placeholder' => $user->getAttributeLabel('repassword')]
         )->label(false) ?>
-        <?= $form->field($profile, 'avatar_url')->widget(
-            Widget::className(),
-            [
-                'settings' => [
-                    'url' => ['fileapi-upload']
-                ],
-                'crop' => true,
-                'cropResizeWidth' => 100,
-                'cropResizeHeight' => 100
-            ]
-        )->label(false) ?>
+<!--        --><?//= $form->field($profile, 'avatar_url')->widget(
+//            Widget::className(),
+//            [
+//                'settings' => [
+//                    'url' => ['fileapi-upload']
+//                ],
+//                'crop' => true,
+//                'cropResizeWidth' => 100,
+//                'cropResizeHeight' => 100
+//            ]
+//        )->label(false) ?>
         <?= Html::submitButton(
             Module::t('users', 'FRONTEND_SIGNUP_SUBMIT'),
             [
                 'class' => 'btn btn-success btn-large pull-right'
             ]
         ) ?>
-        <?= Html::a(Module::t('users', 'FRONTEND_SIGNUP_RESEND'), ['resend']); ?>
+<!--        --><?//= Html::a(Module::t('users', 'FRONTEND_SIGNUP_RESEND'), ['resend']); ?>
     </fieldset>
 <?php ActiveForm::end(); ?>

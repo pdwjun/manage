@@ -3,6 +3,7 @@
 namespace vova07\users\models\backend;
 
 use vova07\users\models\Profile;
+use vova07\users\models\User;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use Yii;
@@ -71,9 +72,17 @@ class UserSearch extends User
             'desc' => [Profile::tableName() . '.surname' => SORT_DESC]
         ];
 
-        if (!($this->load($params) && $this->validate())) {
-            return $dataProvider;
-        }
+//        if (!($this->load($params) && $this->validate())) {
+//            return $dataProvider;
+//        }
+
+        //当前账号下 有关系的账号 才显示
+//        self::
+        if(in_array(Yii::$app->getUser()->id,Yii::$app->params['superadmin']))
+            $group_id = '';
+        else
+            $group_id = Yii::$app->getUser()->identity->group;
+        $query->andFilterWhere(['group'=> $group_id]);
 
         $query->andFilterWhere(
             [
@@ -92,4 +101,5 @@ class UserSearch extends User
 
         return $dataProvider;
     }
+
 }

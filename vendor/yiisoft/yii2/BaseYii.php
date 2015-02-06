@@ -12,6 +12,7 @@ use yii\base\InvalidParamException;
 use yii\base\UnknownClassException;
 use yii\log\Logger;
 use yii\di\Container;
+use common;
 
 /**
  * Gets the application start timestamp.

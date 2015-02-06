@@ -5,6 +5,7 @@ namespace vova07\site\controllers;
 use vova07\site\components\Controller;
 use vova07\site\models\ContactForm;
 use vova07\site\Module;
+use vova07\users\models\User;
 use yii\captcha\CaptchaAction;
 use yii\web\ErrorAction;
 use yii\web\ViewAction;
@@ -43,8 +44,11 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $this->layout = '//home';
+        $user_id = Yii::$app->getUser()->id;
 
-        return $this->render('index');
+        $param = array('url' => User::getNameByID($user_id));
+
+        return $this->render('index',$param);
     }
 
     /**

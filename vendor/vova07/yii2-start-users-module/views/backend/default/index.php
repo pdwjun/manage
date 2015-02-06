@@ -57,7 +57,7 @@ $gridConfig = [
                     $class = 'label-danger';
                 }
 
-                return '<span class="label ' . $class . '">' . $model->status . '</span>';
+                return '<span class="label ' . $class . '">' . $model->status($model->status_id) . '</span>';
             },
             'filter' => Html::activeDropDownList(
                 $searchModel,
@@ -67,14 +67,30 @@ $gridConfig = [
             )
         ],
         [
-            'attribute' => 'role',
-            'filter' => Html::activeDropDownList(
-                $searchModel,
-                'role',
-                $roleArray,
-                ['class' => 'form-control', 'prompt' => Module::t('users', 'BACKEND_PROMPT_ROLE')]
-            )
+            'attribute' => 'vip',
+            'format' => 'html',
+            'value' => function ($model) {
+                if ($model->vip === $model::STATUS_ACTIVE) {
+                    $class = 'label-success';
+                } elseif ($model->vip === $model::STATUS_INACTIVE) {
+                    $class = 'label-warning';
+                } else {
+                    $class = 'label-danger';
+                }
+
+                return '<span class="label ' . $class . '">' . $model->vip($model->vip) . '</span>';
+            },
+            'filter' => 'VIP'
         ],
+//        [
+//            'attribute' => 'role',
+//            'filter' => Html::activeDropDownList(
+//                $searchModel,
+//                'role',
+//                $roleArray,
+//                ['class' => 'form-control', 'prompt' => Module::t('users', 'BACKEND_PROMPT_ROLE')]
+//            )
+//        ],
         [
             'attribute' => 'created_at',
             'format' => 'date',

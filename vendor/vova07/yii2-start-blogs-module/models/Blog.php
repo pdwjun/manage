@@ -5,10 +5,12 @@ namespace vova07\blogs\models;
 use vova07\base\behaviors\PurifierBehavior;
 use vova07\blogs\Module;
 use vova07\blogs\traits\ModuleTrait;
+use common\account;
 use vova07\fileapi\behaviors\UploadBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii;
 
 /**
  * Class Blog
@@ -109,7 +111,9 @@ class Blog extends ActiveRecord
             [['dbname', 'company'], 'required'],
             // Trim
             [['dbname', 'company', 'note'], 'trim'],
+            [['dbname'], 'unique'],
             // Status
+            ['dbname', 'match', 'pattern' => '/^[a-zA-Z0-9_-]+$/'],
             [
                 'status',
                 'default',
@@ -139,4 +143,43 @@ class Blog extends ActiveRecord
 //            'image_url' => Module::t('blogs', 'ATTR_IMAGE_URL'),
         ];
     }
+
+    /**
+     * @param $dbname
+     * @return bool 创建数据库(账套)
+     */
+    public function createDb($dbname){
+        if(!isset($dbname))
+            $dbname = 'test23';
+        $sql = "create database account_". $dbname. " DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; use account_". $dbname. "; ";
+
+        $myfile = fopen("../../common/config/create.txt", "r") or die("Unable to open file!");
+        $sql .=  fread($myfile,filesize('../../common/config/create.txt'));
+        $connection = Yii::$app->db;
+        $command = $connection->createCommand($sql);
+        if($command->execute()){
+            $connection->close();
+            $this->backDB();
+            return true;
+        }
+        else{
+            $connection->close();
+            $this->backDB();
+            return false;
+        }
+    }
+    protected function backDB(){
+
+        //反正当前数据库
+        $connection = Yii::$app->db;
+        $use = "use `". account::getDbName(). "`;";
+        $command = $connection->createCommand($use);
+        $command->execute();
+        $connection->close();
+    }
+
+    public function addCondom($load){
+
+    }
+
 }

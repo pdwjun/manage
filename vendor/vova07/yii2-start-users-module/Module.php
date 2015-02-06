@@ -18,7 +18,7 @@ class Module extends \yii\base\Module
     /**
      * @var boolean If true after registration user will be required to confirm his e-mail address.
      */
-    public $requireEmailConfirmation = true;
+    public $requireEmailConfirmation = false;
 
     /**
      * @var string E-mail address from that will be sent the module messages

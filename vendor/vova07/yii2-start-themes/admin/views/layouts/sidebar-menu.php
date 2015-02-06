@@ -50,34 +50,34 @@ echo Menu::widget(
 //                    ]
 //                ]
 //            ],
-            [
-                'label' => Yii::t('vova07/themes/admin', 'Access control'),
-                'url' => '#',
-                'icon' => 'fa-gavel',
-                'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewRoles') || Yii::$app->user->can('BViewPermissions') || Yii::$app->user->can('BViewRules'),
-                'items' => [
-                    [
-                        'label' => Yii::t('vova07/themes/admin', 'Condom'),
-                        'url' => ['/rbac/condom/index'],
-                        'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewPermissions')
-                    ],
-                    [
-                        'label' => Yii::t('vova07/themes/admin', 'Permissions'),
-                        'url' => ['/rbac/permissions/index'],
-                        'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewPermissions')
-                    ],
-                    [
-                        'label' => Yii::t('vova07/themes/admin', 'Roles'),
-                        'url' => ['/rbac/roles/index'],
-                        'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewRoles')
-                    ],
-                    [
-                        'label' => Yii::t('vova07/themes/admin', 'Rules'),
-                        'url' => ['/rbac/rules/index'],
-                        'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewRules')
-                    ]
-                ]
-            ],
+//            [
+//                'label' => Yii::t('vova07/themes/admin', 'Access control'),
+//                'url' => '#',
+//                'icon' => 'fa-gavel',
+//                'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewRoles') || Yii::$app->user->can('BViewPermissions') || Yii::$app->user->can('BViewRules'),
+//                'items' => [
+//                    [
+//                        'label' => Yii::t('vova07/themes/admin', 'Condom'),
+//                        'url' => ['/rbac/condom/index'],
+//                        'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewPermissions')
+//                    ],
+//                    [
+//                        'label' => Yii::t('vova07/themes/admin', 'Permissions'),
+//                        'url' => ['/rbac/permissions/index'],
+//                        'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewPermissions')
+//                    ],
+//                    [
+//                        'label' => Yii::t('vova07/themes/admin', 'Roles'),
+//                        'url' => ['/rbac/roles/index'],
+//                        'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewRoles')
+//                    ],
+//                    [
+//                        'label' => Yii::t('vova07/themes/admin', 'Rules'),
+//                        'url' => ['/rbac/rules/index'],
+//                        'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewRules')
+//                    ]
+//                ]
+//            ],
         ]
     ]
 );

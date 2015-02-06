@@ -2,7 +2,11 @@
 
 namespace vova07\users\controllers\frontend;
 
+use vova07\blogs\models\Blog;
 use vova07\fileapi\actions\UploadAction as FileAPIUpload;
+use vova07\rbac\models\Access;
+use vova07\rbac\models\Condom;
+use vova07\rbac\models\Role;
 use vova07\users\models\frontend\ActivationForm;
 use vova07\users\models\frontend\RecoveryConfirmationForm;
 use vova07\users\models\frontend\RecoveryForm;
@@ -66,7 +70,24 @@ class GuestController extends Controller
         if ($user->load(Yii::$app->request->post()) && $profile->load(Yii::$app->request->post())) {
             if ($user->validate() && $profile->validate()) {
                 $user->populateRelation('profile', $profile);
+                //注册后，自动新建对应账套 并在access表添加权限关系
+                //数据库
+//                $a = (new Blog)->createDb($user->username);
+//                $a = true;
+//                if($a!=true)
+//                    $this->refresh();
+//                //账套
+//                $model = new Condom();
+//                $model->load(['dbname'=>$_REQUEST['User']['username'],'company'=>$_REQUEST['company']]);
+//                $con_id = $model->addNew($_REQUEST['User']['username'],$_REQUEST['company']);
+
+//                if ($user->save(false)&&$a&&$con_id) {
+                //关系表
+//                    $user_id = Yii::$app->db->lastInsertID;
+//                    Access::addNew($user_id,$con_id);
                 if ($user->save(false)) {
+
+                    \vova07\users\models\User::setGroup();
                     if ($this->module->requireEmailConfirmation === true) {
                         Yii::$app->session->setFlash(
                             'success',
@@ -85,7 +106,8 @@ class GuestController extends Controller
                             Module::t('users', 'FRONTEND_FLASH_SUCCESS_SIGNUP_WITH_LOGIN')
                         );
                     }
-                    return $this->goHome();
+//                    return $this->goHome();
+                    return Yii::$app->getResponse()->redirect('/backend');
                 } else {
                     Yii::$app->session->setFlash('danger', Module::t('users', 'FRONTEND_FLASH_FAIL_SIGNUP'));
                     return $this->refresh();
@@ -141,7 +163,8 @@ class GuestController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            $this->goHome();
+//            $this->goHome();
+            return Yii::$app->getResponse()->redirect('/backend');
         }
 
         $model = new LoginForm();
@@ -149,7 +172,8 @@ class GuestController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
                 if ($model->login()) {
-                    return $this->goHome();
+                    return Yii::$app->getResponse()->redirect('/backend');
+//                    return $this->goHome();
                 }
             } elseif (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;

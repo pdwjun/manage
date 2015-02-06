@@ -8,6 +8,7 @@ use vova07\blogs\models\backend\BlogSearch;
 use vova07\fileapi\actions\UploadAction as FileAPIUpload;
 use vova07\imperavi\actions\GetAction as ImperaviGet;
 use vova07\imperavi\actions\UploadAction as ImperaviUpload;
+use vova07\rbac\models\Access;
 use Yii;
 use yii\db\Query;
 use yii\filters\VerbFilter;
@@ -103,6 +104,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $searchModel = new BlogSearch();
+
         $dataProvider = $searchModel->search(Yii::$app->request->get());
         $statusArray = Blog::getStatusArray();
 
@@ -124,16 +126,20 @@ class DefaultController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
                 if($model->isNewRecord){
-                    $a = $this->createDb($model->dbname);
-                    if($a!=true)
-                        $this->refresh();
-                    //反正当前数据库
-                    $connection = Yii::$app->db;
-                    $use = "use `". $this->getDbName(). "`;";
-                    $command = $connection->createCommand($use);
-                    $command->execute();
+                    if(Create_db==true)
+                    {
+                        $a = (new Blog)->createDb($model->dbname);
+                        if($a!=true)
+                            $this->refresh();
+                    }
                 }
+                //账套起始时间
+                $model->starttime = Yii::$app->formatter->asTimestamp($_POST['Blog']['starttime']);
                 if ($model->save(false)) {
+                    //添加关系access表
+                    $user_id = Yii::$app->getUser()->id;
+
+                    Access::addNew($user_id,$model->id);
                     return $this->redirect(['update', 'id' => $model->id]);
                 } else {
                     Yii::$app->session->setFlash('danger', Module::t('blogs', 'BACKEND_FLASH_FAIL_ADMIN_CREATE'));
@@ -166,6 +172,8 @@ class DefaultController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
+                //账套起始时间
+                $model->starttime = Yii::$app->formatter->asTimestamp($_POST['Blog']['starttime']);
                 if ($model->save(false)) {
                     return $this->refresh();
                 } else {
@@ -241,29 +249,4 @@ class DefaultController extends Controller
         }
     }
 
-    public function createDb($dbname){
-        if(!isset($dbname))
-            $dbname = 'test23';
-        $sql = "create database account_". $dbname. " DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; use account_". $dbname. "; ";
-
-        $myfile = fopen("../config/create.txt", "r") or die("Unable to open file!");
-        $sql .=  fread($myfile,filesize('../config/create.txt'));
-        $connection = Yii::$app->db;
-        $command = $connection->createCommand($sql);
-        if($command->execute()){
-            return true;
-        }
-        else
-            return false;
-    }
-
-    public function getDbName(){
-        //数据库 'dsn' => 'mysql:host=127.0.0.1;dbname=yii2-blog',
-        $str = Yii::$app->getDb()->dsn;
-        preg_match('/dbname=.*/', $str, $dbname);
-        if($dbname!="")
-            return substr($dbname[0], 7);
-        else
-            return "";
-    }
 }

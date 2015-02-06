@@ -312,4 +312,7 @@ return [
         'description' => 'Can delete own comments',
         'ruleName' => 'author',
     ],
+    '' => [
+        'type' => 1,
+    ],
 ];

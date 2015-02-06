@@ -2,7 +2,9 @@
 
 namespace vova07\blogs\models\backend;
 
+use vova07\rbac\models\Access;
 use yii\data\ActiveDataProvider;
+use Yii;
 
 /**
  * Blog search model.
@@ -41,9 +43,9 @@ class BlogSearch extends Blog
             'query' => $query,
         ]);
 
-        if (!($this->load($params) && $this->validate())) {
-            return $dataProvider;
-        }
+//        if (!($this->load($params) && $this->validate())) {
+//            return $dataProvider;
+//        }
 
         $query->andFilterWhere(
             [
@@ -53,6 +55,19 @@ class BlogSearch extends Blog
                 'FROM_UNIXTIME(updated_at, "%d.%m.%Y")' => $this->updated_at!=""?$this->updated_at:null,
             ]
         );
+        //当前账号下 有关系的账套表 才显示
+        $user_id = Yii::$app->getUser()->id;
+        $list = Access::getCondomList($user_id);
+        $lists = array();
+        foreach ($list as $item) {
+            $lists[] = $item['condom_id'];
+        }
+        if(!empty($lists))
+            $query->andFilterWhere(['id'=> $lists]);
+        else
+            $query->andFilterWhere(['id'=> 0]); //没有账套
+
+
 
         $query->andFilterWhere(['like', 'company', $this->company]);
         $query->andFilterWhere(['like', 'dbname', $this->dbname]);

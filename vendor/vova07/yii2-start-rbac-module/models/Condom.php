@@ -406,4 +406,13 @@ class Condom extends ActiveRecord implements IdentityInterface
             return "";
 
     }
+    public function addNew($dbname,$company){
+        $con = Yii::$app->db;
+        $sql = 'insert into '. $this->tableName(). '(id,dbname,company)value("","'.$dbname.'","'.$company.'")';
+
+        if($con->createCommand($sql)->execute())
+            return Yii::$app->db->lastInsertID;
+        else
+            return false;
+    }
 }

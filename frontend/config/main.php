@@ -5,6 +5,7 @@ return [
     'name' => 'Yii2-Start',
     'basePath' => dirname(__DIR__),
     'defaultRoute' => 'site/default/index',
+    'language' => 'zh-CN',
     'modules' => [
         'site' => [
             'class' => 'vova07\site\Module'

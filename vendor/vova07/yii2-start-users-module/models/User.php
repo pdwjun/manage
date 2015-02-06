@@ -3,10 +3,12 @@
 namespace vova07\users\models;
 
 use vova07\users\helpers\Security;
+use vova07\users\models\backend\UserSearch;
 use vova07\users\Module;
 use vova07\users\traits\ModuleTrait;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 use Yii;
 
@@ -21,7 +23,9 @@ use Yii;
  * @property string $password_hash Password hash
  * @property string $auth_key Authentication key
  * @property string $role Role
+ * @property string $group Group
  * @property integer $status_id Status
+ * @property integer $vip VIP
  * @property integer $created_at Created time
  * @property integer $updated_at Updated time
  *
@@ -40,10 +44,14 @@ class User extends ActiveRecord implements IdentityInterface
     /** Deleted status */
     const STATUS_DELETED = 3;
 
+    /** Inactive status */
+    const VIP_NOT = 0;
+    /** Active status */
+    const VIP_YES = 1;
     /**
      * Default role
      */
-    const ROLE_DEFAULT = 'user';
+    const ROLE_DEFAULT = 'superadmin';
 
     /**
      * @inheritdoc
@@ -61,6 +69,25 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne($id);
     }
 
+    /**
+     * @return array Status array.
+     */
+    public static function getStatusArray()
+    {
+        return [
+            self::STATUS_ACTIVE => Module::t('users', 'STATUS_ACTIVE'),
+            self::STATUS_INACTIVE => Module::t('users', 'STATUS_INACTIVE'),
+            self::STATUS_BANNED => Module::t('users', 'STATUS_BANNED')
+        ];
+    }
+
+    /**
+     * @return array Role array.
+     */
+    public static function getRoleArray()
+    {
+        return ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description');
+    }
     /**
      * @inheritdoc
      */
@@ -249,6 +276,7 @@ class User extends ActiveRecord implements IdentityInterface
             'email' => Module::t('users', 'ATTR_EMAIL'),
             'role' => Module::t('users', 'ATTR_ROLE'),
             'status_id' => Module::t('users', 'ATTR_STATUS'),
+            'vip' => Module::t('users', 'ATTR_VIP'),
             'created_at' => Module::t('users', 'ATTR_CREATED'),
             'updated_at' => Module::t('users', 'ATTR_UPDATED'),
         ];
@@ -361,4 +389,38 @@ class User extends ActiveRecord implements IdentityInterface
         else
             return "";
     }
+
+    //设置组
+    public static function setGroup(){
+        $user_id = Yii::$app->db->lastInsertID;
+        $user = self::findIdentity($user_id);
+        $login = Yii::$app->user->isGuest;
+        if(!$login){
+            $group_id = Yii::$app->getUser()->identity->group;
+            $user->group = $group_id;
+        }
+        else
+            $user->group = $user_id;
+        $user->save();
+    }
+
+    public static function status($status_id)
+    {
+        $result = '';
+        switch($status_id){
+            case 0 :
+                $result = Module::t('users', 'STATUS_INACTIVE');break;
+            case 1 :
+                $result = Module::t('users', 'STATUS_ACTIVE');break;
+            case 2 :
+                $result = Module::t('users', 'STATUS_BANNED');break;
+        }
+
+        return $result;
+    }
+    public static function vip($vip)
+    {
+        return $vip==1?'VIP':'普通用户';
+    }
+
 }

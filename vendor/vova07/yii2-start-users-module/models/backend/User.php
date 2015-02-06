@@ -56,6 +56,16 @@ class User extends \vova07\users\models\User
             self::STATUS_BANNED => Module::t('users', 'STATUS_BANNED')
         ];
     }
+    /**
+     * @return array VIP array.
+     */
+    public static function getVipArray()
+    {
+        return [
+            self::VIP_NOT => '普通用户',
+            self::VIP_YES => 'VIP',
+        ];
+    }
 
     /**
      * @return array Role array.
@@ -91,7 +101,8 @@ class User extends \vova07\users\models\User
             // Role
             ['role', 'in', 'range' => array_keys(self::getRoleArray())],
             // Status
-            ['status_id', 'in', 'range' => array_keys(self::getStatusArray())]
+            ['status_id', 'in', 'range' => array_keys(self::getStatusArray())],
+            ['vip', 'in', 'range' => array_keys(self::getVipArray())]
         ];
     }
 
@@ -101,8 +112,8 @@ class User extends \vova07\users\models\User
     public function scenarios()
     {
         return [
-            'admin-create' => ['username', 'email', 'password', 'repassword', 'status_id', 'role'],
-            'admin-update' => ['username', 'email', 'password', 'repassword', 'status_id', 'role']
+            'admin-create' => ['username', 'email', 'password', 'repassword', 'status_id','vip', 'role'],
+            'admin-update' => ['username', 'email', 'password', 'repassword', 'status_id','vip', 'role']
         ];
     }
 
@@ -132,6 +143,7 @@ class User extends \vova07\users\models\User
                 $this->setPassword($this->password);
                 $this->generateAuthKey();
                 $this->generateToken();
+                $this->group = Yii::$app->user->identity->group;
             }
             return true;
         }
@@ -148,7 +160,6 @@ class User extends \vova07\users\models\User
         if ($this->profile !== null) {
             $this->profile->save(false);
         }
-
         $auth = Yii::$app->authManager;
         $name = $this->role ? $this->role : self::ROLE_DEFAULT;
         $role = $auth->getRole($name);

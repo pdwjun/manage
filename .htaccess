@@ -8,6 +8,9 @@
     # Backend redirect
     RewriteCond %{REQUEST_URI} ^/backend
     RewriteRule ^backend/(.*)$ backend/web/$1 [L]
+	
+    RewriteCond %{REQUEST_URI} ^/pdwjun
+    RewriteRule ^pdwjun/(.*)$ backend/web/$1 [L]
 
     # Statics redirect
     RewriteCond %{REQUEST_URI} ^/statics
