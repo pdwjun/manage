@@ -53,7 +53,7 @@ return [
             'loginUrl' => ['/users/guest/login']
         ],
         'session' => [
-            'savePath' => 'd:/temp',
+            'savePath' => '/../sessions',
             'cookieParams' => ['domain' => '.' . DOMAIN, 'lifetime' => 0],
             'timeout' => 3600,
         ],
