@@ -30,7 +30,7 @@ $this->params['subtitle'] = Module::t('admin', 'INDEX_SUBTITLE'); ?>
           <?= $condom['dbname']?>&nbsp;
         </p>
       </div>
-      <a href="http://<?= $condom['dbname']?>.<?= Domain?>" target="_blank" class="small-box-footer" >
+      <a href="http://<?= $condom['dbname']?>.<?= DOMAIN?>" target="_blank" class="small-box-footer" >
         点击进入 <i class="fa fa-arrow-circle-right"></i>
       </a>
     </div>

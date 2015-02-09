@@ -8,15 +8,18 @@ require(__DIR__ . '/../../vendor/yiisoft/yii2/Yii.php');
 require(__DIR__ . '/../../common/config/aliases.php');
 require(__DIR__ . '/../../common/common.php');
 
-if (false !== strpos('abc.com', $_SERVER['SERVER_NAME'])) {
-    defined('Domain') or define('Domain', 'abc.com');
+$domain=str_replace('.'.$_SERVER['SERVER_NAME'],'',$_SERVER['HTTP_HOST']);
+if(preg_match('/\..*/',$_SERVER['HTTP_HOST'],$match))
+    $domain = $match[0];
+$domain = substr($domain,1);
+defined('DOMAIN') or define('DOMAIN', $domain);
+if (false !== strpos('abc.com', $domain)) {
     $config = yii\helpers\ArrayHelper::merge(
         require(__DIR__ . '/../../common/config/main-local.php'),
         require(__DIR__ . '/../config/main-local.php')
     );
 }else
 {
-    defined('Domain') or define('Domain', 'sorcerer.com.cn');
     $config = yii\helpers\ArrayHelper::merge(
         require(__DIR__ . '/../../common/config/main.php'),
         require(__DIR__ . '/../config/main.php')
