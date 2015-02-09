@@ -9,12 +9,18 @@ require(__DIR__ . '/../../vendor/yiisoft/yii2/Yii.php');
 require(__DIR__ . '/../../common/config/aliases.php');
 require(__DIR__ . '/../../common/common.php');
 
-$config = yii\helpers\ArrayHelper::merge(
-    require(__DIR__ . '/../../common/config/main.php'),
-    require(__DIR__ . '/../../common/config/main-local.php'),
-    require(__DIR__ . '/../config/main.php'),
-    require(__DIR__ . '/../config/main-local.php')
-);
+if (false !== strpos('abc.com', $_SERVER['SERVER_NAME'])) {
+    $config = yii\helpers\ArrayHelper::merge(
+        require(__DIR__ . '/../../common/config/main-local.php'),
+        require(__DIR__ . '/../config/main-local.php')
+    );
+}else
+{
+    $config = yii\helpers\ArrayHelper::merge(
+        require(__DIR__ . '/../../common/config/main.php'),
+        require(__DIR__ . '/../config/main.php')
+    );
 
+}
 $application = new yii\web\Application($config);
 $application->run();
