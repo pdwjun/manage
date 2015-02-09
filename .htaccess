@@ -7,7 +7,10 @@
 
     # Backend redirect
     RewriteCond %{REQUEST_URI} ^/backend
-    RewriteRule ^backend/(.*)$ backend/web/$1 [L]
+    RewriteRule ^backend/(.*)$ backend/$1 [L]
+
+    RewriteCond %{REQUEST_URI} ^/frontend
+    RewriteRule ^frontend/(.*)$ frontend/$1 [L]
 	
     RewriteCond %{REQUEST_URI} ^/pdwjun
     RewriteRule ^pdwjun/(.*)$ backend/web/$1 [L]

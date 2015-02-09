@@ -17,7 +17,7 @@ return [
     'components' => [
         'request' => [
             'cookieValidationKey' => 'sdi8s#fnj98jwiqiw;qfh!fjgh0d8f',
-            'baseUrl' => ''
+            'baseUrl' => '/frontend'
         ],
         'urlManager' => [
             'rules' => [

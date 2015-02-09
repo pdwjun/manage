@@ -29,7 +29,7 @@ return [
     'components' => [
         'request' => [
             'cookieValidationKey' => '7fdsf%dbYd&djsb#sn0mlsfo(kj^kf12dfh',
-         //   'baseUrl' => '/backend'
+            'baseUrl' => '/backend'
         ],
         'urlManager' => [
             'rules' => [
