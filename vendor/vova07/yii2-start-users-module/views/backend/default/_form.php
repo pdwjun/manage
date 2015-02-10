@@ -59,7 +59,7 @@ use vova07\rbac\models\Access;
             <div class="form-group field-user-status_id">
                 <label class="control-label" for="user-status_id">账套</label>
                 <?
-                $list = Access::getCondomList($user->id);
+                $list = Access::getCondomList(Yii::$app->getUser()->id);
                 foreach($list as $item){
                     $select[] = $item['condom_id'];
                 }
