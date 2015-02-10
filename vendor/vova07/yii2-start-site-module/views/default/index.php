@@ -14,8 +14,6 @@ $this->params['noTitle'] = true; ?>
         <p><img src="<?= $this->assetManager->publish('@vova07/themes/site/images/slider/bg2.png')[1] ?>" alt="Yii 2" /></p>
         <div class="col-md-12">
             <a href="/backend" class="btn btn-primary btn-lg" >登陆后台</a>
-
-            <a href="/<?= $url?>" class="btn btn-primary btn-lg" >进入账套</a>
         </div>
     </div>
 </section>

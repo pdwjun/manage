@@ -49,6 +49,14 @@ class DefaultController extends Controller
         $param = array('url' => User::getNameByID($user_id));
 
         return $this->render('index',$param);
+
+//        if (!Yii::$app->user->isGuest) {
+//
+//            return Yii::$app->getResponse()->redirect('/frontend/web/index.php?r=users/guest/login');
+//            $this->goHome();
+//        }
+//        else
+//        return Yii::$app->getResponse()->redirect('/frontend/web/index.php?r=users/guest/login');
     }
 
     /**
