@@ -50,7 +50,6 @@ use vova07\themes\site\widgets\Alert;
                     &copy; 2014 <?= Yii::$app->name ?>. <?= Yii::t('vova07/themes/site', 'All Rights Reserved') ?>.
                 </div>
                 <div class="col-sm-6">
-                    <?= $this->render('//layouts/top-menu', ['footer' => true]) ?>
                 </div>
             </div>
         </div>

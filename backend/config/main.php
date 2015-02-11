@@ -4,7 +4,7 @@ Yii::setAlias('backend', dirname(__DIR__));
 
 return [
     'id' => 'app-backend',
-    'name' => 'Yii2-Start',
+    'name' => '老法师',
     'basePath' => dirname(__DIR__),
     'language' => 'zh-CN',
     'defaultRoute' => 'admin/default/index',
