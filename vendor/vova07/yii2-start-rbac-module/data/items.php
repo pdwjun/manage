@@ -73,6 +73,13 @@ return [
     'user' => [
         'type' => 1,
         'description' => 'User',
+        'children' => [
+            'accessBackend',
+            'administrateRbac',
+            'administrateUsers',
+            'administrateBlogs',
+            'administrateComments',
+        ],
     ],
     'admin' => [
         'type' => 1,
@@ -93,11 +100,6 @@ return [
         'description' => 'Super admin',
         'children' => [
             'admin',
-            'accessBackend',
-            'administrateRbac',
-            'administrateUsers',
-            'administrateBlogs',
-            'administrateComments',
         ],
     ],
     'administrateUsers' => [

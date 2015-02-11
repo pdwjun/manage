@@ -1,3 +1,8 @@
+<IfModule mod_autoindex.c>
+    # Disable Indexes
+    Options -Indexes
+</IfModule>
+
 # Mod_Rewrite
 <IfModule mod_rewrite.c>
     # Enable symlinks
@@ -7,26 +12,13 @@
 
     # Backend redirect
     RewriteCond %{REQUEST_URI} ^/backend
-    RewriteRule ^backend/(.*)$ backend/$1 [L]
-
-    RewriteCond %{REQUEST_URI} ^/frontend
-    RewriteRule ^frontend/(.*)$ frontend/$1 [L]
-	
-    RewriteCond %{REQUEST_URI} ^/pdwjun
-    RewriteRule ^pdwjun/(.*)$ backend/web/$1 [L]
+    RewriteRule ^backend/(.*)$ backend/web/$1 [L]
 
     # Statics redirect
     RewriteCond %{REQUEST_URI} ^/statics
     RewriteRule ^statics/(.*)$ statics/web/$1 [L]
-	
-    RewriteCond %{REQUEST_URI} ^/t
-    RewriteRule ^t/(.*)$ test/$1 [L]
-	
-    RewriteCond %{REQUEST_URI} ^/assets
-    RewriteRule ^t/(.*)$ assets/$1 [L]
 
     # Frontend redirect
     RewriteCond %{REQUEST_URI} ^(.*)$
     RewriteRule ^(.*)$ frontend/web/$1
-
 </IfModule>

@@ -46,6 +46,8 @@ class DefaultController extends Controller
     {
         $user_id = Yii::$app->user->id;
         $list = Access::getCondomList($user_id);
+        if(Yii::$app->user->isGuest)
+            return $this->redirect(Yii::$app->urlManager->createUrl('users/guest/login'));
 
         return $this->render('index',
             [
