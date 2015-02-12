@@ -426,9 +426,12 @@ class Access extends ActiveRecord implements IdentityInterface
      * @return bool
      * @throws \yii\db\Exception
      */
-    public static function addNew($user_id,$con_id){
+    public static function addNew($user_id,$con_list){
         $con = Yii::$app->db;
-        $sql = 'insert into '. self::tableName(). '(id,user_id,condom_id,role_id)value("",'.$user_id.','.$con_id.',2)';
+        $sql = "";
+        foreach($con_list as $item){
+            $sql .= 'insert into '. self::tableName(). '(id,user_id,condom_id,role_id)value("",'.$user_id.','.$item.',2);';
+        }
 
         if($con->createCommand($sql)->execute())
             return true;

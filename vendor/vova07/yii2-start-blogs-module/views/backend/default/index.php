@@ -43,24 +43,24 @@ $gridConfig = [
                 );
             }
         ],
-        [
-            'attribute' => 'status',
-            'format' => 'html',
-            'value' => function ($model) {
-                $class = ($model->status === $model::STATUS_PUBLISHED) ? 'label-success' : 'label-danger';
-
-                return '<span class="label ' . $class . '">' . $model->status . '</span>';
-            },
-            'filter' => Html::activeDropDownList(
-                $searchModel,
-                'status',
-                $statusArray,
-                [
-                    'class' => 'form-control',
-                    'prompt' => Module::t('blogs', 'BACKEND_PROMPT_STATUS')
-                ]
-            )
-        ],
+//        [
+//            'attribute' => 'status',
+//            'format' => 'html',
+//            'value' => function ($model) {
+//                $class = ($model->status === $model::STATUS_PUBLISHED) ? 'label-success' : 'label-danger';
+//
+//                return '<span class="label ' . $class . '">' . $model->status . '</span>';
+//            },
+//            'filter' => Html::activeDropDownList(
+//                $searchModel,
+//                'status',
+//                $statusArray,
+//                [
+//                    'class' => 'form-control',
+//                    'prompt' => Module::t('blogs', 'BACKEND_PROMPT_STATUS')
+//                ]
+//            )
+//        ],
         [
             'attribute' => 'created_at',
             'format' => 'date',

@@ -46,12 +46,12 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'cphone') ?>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <?= $form->field($model, 'status')->dropDownList($statusArray) ?>
-
-        </div>
-    </div>
+<!--    <div class="row">-->
+<!--        <div class="col-sm-12">-->
+<!--            --><?//= $form->field($model, 'status')->dropDownList($statusArray) ?>
+<!---->
+<!--        </div>-->
+<!--    </div>-->
     <div class="row">
         <div class="col-sm-6">
             <?= $form->field($model, 'starttime')->widget(
