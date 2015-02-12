@@ -89,11 +89,7 @@ use vova07\rbac\models\Access;
             <div class="col-sm-6">
                 <?
 
-                    echo $form->field($user, 'vip')->dropDownList(
-                        $vipArray,
-                        [
-                            'prompt' => '选择'
-                        ]);
+                    echo $form->field($user, 'vip')->dropDownList($vipArray);
                 ?>
             </div>
             <?
